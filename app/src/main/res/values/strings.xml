@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestOne</string>
+    <string name="app_name">Gym Finder</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,7 +8,7 @@
     <string name="title_activity_gym_detail">GymDetailActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Gym Finder</string>
     <string name="title_activity_gym_profile">Gym Profile</string>
     <string name="title_activity_join_trainer_club">Join Trainer Club</string>
     <string name="title_activity_user_profile">User Profile </string>
@@ -30,5 +30,4 @@
     </string>
     <string name="title_activity_trainers_nearby">Trainers Nearby</string>
     <string name="title_activity_nutritionist_nearby">Nutritionist Nearby</string>
-
 </resources>

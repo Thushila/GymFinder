@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/nutritionistDetailCard">
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="left">
+
+
+            <ImageView
+                android:layout_width="88dp"
+                android:layout_height="match_parent"
+                android:id="@+id/nutritionistProfPic"
+                android:layout_below="@+id/cardView2"
+                app:srcCompat="@mipmap/peraon_1"
+                android:layout_alignLeft="@+id/imageView3"
+                android:layout_alignStart="@+id/imageView3"
+                android:baselineAlignBottom="false"
+                android:layout_weight="0.67" />
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:weightSum="1"
+                android:baselineAligned="false">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nutritionistName"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:autoText="false"
+                    android:gravity="bottom|center_horizontal"
+                    android:textSize="18sp"
+                    android:elevation="11dp"
+                    android:textColorLink="@android:color/darker_gray"
+                    android:textStyle="normal|bold" />
+                <!--android:text="Naveed Shann"-->
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RatingBar
+                        android:id="@+id/nutritionistRate"
+                        android:layout_height="wrap_content"
+                        android:scaleX="0.4"
+                        android:scaleY="0.4"
+                        android:visibility="visible"
+                        android:isIndicator="false"
+                        android:padding="1dp"
+                        android:layout_width="198dp"
+                        android:numStars="5"
+                        android:max="5"/>
+                    <!--android:rating="3"-->
+
+                    <ImageView
+                        android:layout_height="wrap_content"
+                        android:id="@+id/availability"
+                        android:layout_width="30dp"
+                        android:layout_gravity="center_vertical" />
+                    <!--app:srcCompat="@drawable/ic_thumb_up_black_24dp"-->
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/address"
+                    android:gravity="center"
+                     />
+                <!--android:text="123 Elm St. #1234"-->
+                <!--tools:text="123 Elm St. #1234"-->
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
