@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_gym"
+            android:icon="@drawable/ic_menu_gym"
+            android:title="Find a Gym" />
+        <item
+            android:id="@+id/nav_trainer"
+            android:icon="@drawable/ic_menu_trainer"
+            android:title="Find a Trainer" />
+        <item
+            android:id="@+id/nav_nutri"
+            android:icon="@drawable/ic_menu_nutri"
+            android:title="Find a Nutriotionis" />
+        <item
+            android:id="@+id/nav_messages"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Messages" />
+        <item
+            android:id="@+id/nav_events"
+            android:icon="@drawable/ic_menu_event"
+            android:title="Events" />
+        <item
+            android:id="@+id/nav_payment"
+            android:icon="@drawable/ic_menu_payment"
+            android:title="Payments" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Settings" />
+    </group>
+
+</menu>

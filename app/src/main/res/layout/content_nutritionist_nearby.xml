@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_nutritionist_nearby"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.shiwantha.testone.NutritionistNearbyActivity"
+    tools:showIn="@layout/activity_nutritionist_nearby">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:srcCompat="@drawable/cover"
+            android:id="@+id/imageView7"
+            android:scaleType="fitXY"
+            android:layout_marginBottom="10dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:outlineProvider="paddedBounds"
+                android:weightSum="1">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left">
+
+
+                        <ImageView
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@mipmap/peraon_1"
+                            android:id="@+id/imageView2"
+                            android:layout_below="@+id/cardView2"
+                            android:layout_alignLeft="@+id/imageView3"
+                            android:layout_alignStart="@+id/imageView3"
+                            android:baselineAlignBottom="false"
+                            android:layout_weight="0.67" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:weightSum="1"
+                            android:baselineAligned="false">
+
+                            <TextView
+                                android:text="Naveed Shann"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/trainername"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:autoText="false"
+                                android:gravity="bottom|center_horizontal"
+                                android:textSize="18sp"
+                                android:elevation="11dp"
+                                android:textColorLink="@android:color/darker_gray"
+                                android:textStyle="normal|bold" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    android:layout_height="wrap_content"
+                                    android:rating="3"
+                                    android:scaleX="0.4"
+                                    android:scaleY="0.4"
+                                    android:visibility="visible"
+                                    android:isIndicator="false"
+                                    android:padding="1dp"
+                                    android:layout_width="198dp"
+                                    android:numStars="5"
+                                    android:max="5"/>
+
+                                <ImageView
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_thumb_up_black_24dp"
+                                    android:id="@+id/imageView5"
+                                    android:layout_width="30dp"
+                                    android:layout_gravity="center_vertical" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:text="123 Elm St. #1234"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView7"
+                                android:gravity="center"
+                                tools:text="123 Elm St. #1234" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left">
+
+
+                        <ImageView
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@mipmap/ic_person_2"
+                            android:id="@+id/imageView2"
+                            android:layout_below="@+id/cardView2"
+                            android:layout_alignLeft="@+id/imageView3"
+                            android:layout_alignStart="@+id/imageView3"
+                            android:baselineAlignBottom="false"
+                            android:layout_weight="0.67" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:weightSum="1"
+                            android:baselineAligned="false">
+
+                            <TextView
+                                android:text="John Doe"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/trainername"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:autoText="false"
+                                android:gravity="bottom|center_horizontal"
+                                android:textSize="18sp"
+                                android:elevation="11dp"
+                                android:textColorLink="@android:color/darker_gray"
+                                android:textStyle="normal|bold" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    android:layout_height="wrap_content"
+                                    android:rating="3"
+                                    android:scaleX="0.4"
+                                    android:scaleY="0.4"
+                                    android:visibility="visible"
+                                    android:isIndicator="false"
+                                    android:padding="1dp"
+                                    android:layout_width="198dp"
+                                    android:numStars="5"
+                                    android:max="5"/>
+
+                                <ImageView
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_thumb_up_black_24dp"
+                                    android:id="@+id/imageView5"
+                                    android:layout_width="30dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:visibility="invisible" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:text="123 Elm St. #1234"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView7"
+                                android:gravity="center"
+                                tools:text="123 Elm St. #1234" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left">
+
+
+                        <ImageView
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@mipmap/ic_person_3"
+                            android:id="@+id/imageView2"
+                            android:layout_below="@+id/cardView2"
+                            android:layout_alignLeft="@+id/imageView3"
+                            android:layout_alignStart="@+id/imageView3"
+                            android:baselineAlignBottom="false"
+                            android:layout_weight="0.67" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:weightSum="1"
+                            android:baselineAligned="false">
+
+                            <TextView
+                                android:text="Michael Clarckson"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/trainername"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:autoText="false"
+                                android:gravity="bottom|center_horizontal"
+                                android:textSize="18sp"
+                                android:elevation="11dp"
+                                android:textColorLink="@android:color/darker_gray"
+                                android:textStyle="normal|bold" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    android:layout_height="wrap_content"
+                                    android:rating="3"
+                                    android:scaleX="0.4"
+                                    android:scaleY="0.4"
+                                    android:visibility="visible"
+                                    android:isIndicator="false"
+                                    android:padding="1dp"
+                                    android:layout_width="198dp"
+                                    android:numStars="5"
+                                    android:max="5"/>
+
+                                <ImageView
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_thumb_up_black_24dp"
+                                    android:id="@+id/imageView5"
+                                    android:layout_width="30dp"
+                                    android:layout_gravity="center_vertical" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:text="123 Elm St. #1234"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView7"
+                                android:gravity="center"
+                                tools:text="123 Elm St. #1234" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="left">
+
+
+                        <ImageView
+                            android:layout_width="88dp"
+                            android:layout_height="match_parent"
+                            app:srcCompat="@mipmap/ic_person_4"
+                            android:id="@+id/imageView2"
+                            android:layout_below="@+id/cardView2"
+                            android:layout_alignLeft="@+id/imageView3"
+                            android:layout_alignStart="@+id/imageView3"
+                            android:baselineAlignBottom="false"
+                            android:layout_weight="0.67" />
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:weightSum="1"
+                            android:baselineAligned="false">
+
+                            <TextView
+                                android:text="Imran Khan"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/trainername"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:autoText="false"
+                                android:gravity="bottom|center_horizontal"
+                                android:textSize="18sp"
+                                android:elevation="11dp"
+                                android:textColorLink="@android:color/darker_gray"
+                                android:textStyle="normal|bold" />
+
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <RatingBar
+                                    android:id="@+id/ratingBar"
+                                    android:layout_height="wrap_content"
+                                    android:rating="3"
+                                    android:scaleX="0.4"
+                                    android:scaleY="0.4"
+                                    android:visibility="visible"
+                                    android:isIndicator="false"
+                                    android:padding="1dp"
+                                    android:layout_width="198dp"
+                                    android:numStars="5"
+                                    android:max="5"/>
+
+                                <ImageView
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_thumb_up_black_24dp"
+                                    android:id="@+id/imageView5"
+                                    android:layout_width="30dp"
+                                    android:layout_gravity="center_vertical" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:text="123 Elm St. #1234"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView7"
+                                android:gravity="center"
+                                tools:text="123 Elm St. #1234" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</RelativeLayout>
