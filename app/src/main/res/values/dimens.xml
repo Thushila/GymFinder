@@ -7,4 +7,5 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="gym_profile_font_size">20sp</dimen>
+    <dimen name="main_view_font_size">10sp</dimen>
 </resources>

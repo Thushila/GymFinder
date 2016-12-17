@@ -1,20 +1,38 @@
 package com.example.shiwantha.testone;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import com.example.shiwantha.testone.Entity.TrainerObj;
+import com.example.shiwantha.testone.adaptor.TrainerCardAdaptor;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +50,8 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //navigate to trainer profile
-        final Button joinTrainersClub = (Button) findViewById(R.id.button2);
-        joinTrainersClub.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class));
-            }
-        });
+        //add getTrainer method and execute
+        new GetTrainers().execute("hello");
 
     }
 
@@ -69,7 +82,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             startActivity(new Intent(TrainersNearbyActivity.this, TrainerProfileActivity.class));
 
 
-        }else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             startActivity(new Intent(TrainersNearbyActivity.this, RegisterActivity.class));
 
         }
@@ -77,6 +90,99 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void sendAdapterData(ArrayList<TrainerObj> trinerObjArraya) {
+
+        TrainerCardAdaptor trainerCardAdaptor = new TrainerCardAdaptor(this, trinerObjArraya);
+
+        ListView trainerListView = (ListView) findViewById(R.id.trainerListView);
+        trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(AdapterView<?> trainerCardAdaptor, View view, int i, long l) {
+                if (true) {
+                    Intent myIntent = new Intent(view.getContext(), TrainerProfileActivity.class);
+                    startActivityForResult(myIntent, 0);
+                }
+            }
+        }); trainerListView.setAdapter(trainerCardAdaptor);
+    }
+
+    private class GetTrainers extends AsyncTask<String, Void, String> {
+        StringBuilder responseOutput;
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+                URL url = new URL("http://192.168.8.102:9000/api/trainers");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                // String urlParameters = "fizz=buzz";
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
+                connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
+
+                int responseCode = connection.getResponseCode();
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String line = "";
+                responseOutput = new StringBuilder();
+                while ((line = br.readLine()) != null) {
+                    responseOutput.append(line);
+                }
+
+                br.close();
+
+                //  Log.e("Test1","huwaaaaaaakkbaaaar:: "+responseOutput.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+            return responseOutput.toString();
+        }
+
+        @Override
+        protected void onPostExecute(String trainerStringArray) {
+
+            // Log.e("Test1","allllllaaaaaaaaaaaahhhhh :: "+trainerStringArray);
+
+            try {
+                JSONArray trainerJsonArray = new JSONArray(trainerStringArray);
+                Log.e("Test1", "try :: " + trainerJsonArray.length());
+
+                for (int i = 0; i < trainerJsonArray.length(); i++) {
+
+                    TrainerObj trainerObj = new TrainerObj();
+                    JSONObject trainerJsonObj = trainerJsonArray.getJSONObject(i);
+
+
+                    trainerObj.setName(trainerJsonObj.getString("name"));
+                    // Log.e("Test1","phone :: "+trainerJsonObj.getString("phone"));
+                    trainerObj.setPhone(trainerJsonObj.getString("phone"));
+                    trainerObj.setCertification(trainerJsonObj.getString("certification"));
+                    trainerObj.setFacilityOrHouseCalls(trainerJsonObj.getString("facilityOrHouseCalls"));
+                    trainerObj.setInsured(trainerJsonObj.getBoolean("insureStatus"));
+                    trainerObj.setLocation(trainerJsonObj.getString("location"));
+                    trainerObj.setPrice(trainerJsonObj.getInt("price"));
+                    trainerObj.setServices(trainerJsonObj.getString("services"));
+                    trainerObj.setRating(trainerJsonObj.getInt("rating"));
+                    trainerObj.setGender(trainerJsonObj.getString("gender"));
+
+
+                    trainerObjArray.add(trainerObj);
+
+                }
+
+                sendAdapterData(trainerObjArray);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
