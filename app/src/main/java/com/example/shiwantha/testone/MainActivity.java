@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        Log.e("Test2", "OnPost Dataaaaaaaaaaaaawwx :: ");
 
         new GetGyms().execute("hello");
 
@@ -164,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
 
         for (GymObj gymObj : gymObjArray) {
-            Log.e("Test2", "OnPost gymObj :: " + gymObj.getLongitude());
 
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(gymObj.getLatitude(), gymObj.getLongitude())).title("Capital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             allMarkersMap.put(marker, gymObj);
@@ -175,8 +173,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onMarkerClick(Marker marker) {
                 GymObj selectedGymObj = allMarkersMap.get(marker);
-                Log.e("Test2", "Log 11111 :: GymName-----888888 " + selectedGymObj.getName());
-
 
                 //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
                 Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
@@ -196,18 +192,16 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             try {
-                Log.e("Test2", "Log before :: ");
 
                 URL url = new URL("http://192.168.8.101:9000/api/gyms");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                ;
+
                 connection.setRequestMethod("GET");
 
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
-                Log.e("Test2", "Log after :: " + responseCode);
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -217,9 +211,6 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 br.close();
-
-                Log.e("Test2", "Log 11111 :: " + responseOutput.toString());
-
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -236,8 +227,6 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String gymStringArray) {
-
-            Log.e("Test2", "OnPost Data getGymsOnPostExecute :: " + gymStringArray);
 
             try {
 
@@ -267,8 +256,7 @@ public class MainActivity extends AppCompatActivity
                     gymObjArray.add(gymObj);
 
                 }
-                Log.e("Test2", "OnPost Dataaaaaaaaaaaaa :: " + gymObjArray.get(0).getLongitude());
-
+               
             } catch (JSONException e) {
                 e.printStackTrace();
             }

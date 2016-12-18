@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(RegisterActivity.this, TrainerProfileActivity.class));
 
 
-        }else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             startActivity(new Intent(RegisterActivity.this, RegisterActivity.class));
 
         }

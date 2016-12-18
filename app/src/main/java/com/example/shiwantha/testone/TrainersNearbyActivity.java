@@ -107,7 +107,8 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
                     startActivityForResult(myIntent, 0);
                 }
             }
-        }); trainerListView.setAdapter(trainerCardAdaptor);
+        });
+        trainerListView.setAdapter(trainerCardAdaptor);
     }
 
     private class GetTrainers extends AsyncTask<String, Void, String> {
@@ -117,11 +118,10 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         protected String doInBackground(String... strings) {
 
             try {
-                URL url = new URL("http://192.168.8.102:9000/api/trainers");
+                URL url = new URL("http://192.168.8.101:9000/api/trainers");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                // String urlParameters = "fizz=buzz";
+
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
@@ -135,7 +135,6 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
                 br.close();
 
-                //  Log.e("Test1","huwaaaaaaakkbaaaar:: "+responseOutput.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 return null;
@@ -149,11 +148,9 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         @Override
         protected void onPostExecute(String trainerStringArray) {
 
-            // Log.e("Test1","allllllaaaaaaaaaaaahhhhh :: "+trainerStringArray);
 
             try {
                 JSONArray trainerJsonArray = new JSONArray(trainerStringArray);
-                Log.e("Test1", "try :: " + trainerJsonArray.length());
 
                 for (int i = 0; i < trainerJsonArray.length(); i++) {
 
@@ -162,7 +159,6 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
 
                     trainerObj.setName(trainerJsonObj.getString("name"));
-                    // Log.e("Test1","phone :: "+trainerJsonObj.getString("phone"));
                     trainerObj.setPhone(trainerJsonObj.getString("phone"));
                     trainerObj.setCertification(trainerJsonObj.getString("certification"));
                     trainerObj.setFacilityOrHouseCalls(trainerJsonObj.getString("facilityOrHouseCalls"));
@@ -172,7 +168,6 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
                     trainerObj.setServices(trainerJsonObj.getString("services"));
                     trainerObj.setRating(trainerJsonObj.getInt("rating"));
                     trainerObj.setGender(trainerJsonObj.getString("gender"));
-
 
                     trainerObjArray.add(trainerObj);
 

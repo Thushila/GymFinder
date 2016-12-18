@@ -29,7 +29,7 @@
                 android:layout_width="88dp"
                 android:layout_height="match_parent"
                 app:srcCompat="@mipmap/peraon_1"
-                android:id="@+id/trainerProfPic"
+                android:id="@+id/trainerPic"
                 android:layout_below="@+id/cardView2"
                 android:layout_alignLeft="@+id/imageView3"
                 android:layout_alignStart="@+id/imageView3"
@@ -48,7 +48,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/trainername"
+                    android:id="@+id/trainerName"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:autoText="false"
                     android:gravity="bottom|center_horizontal"
@@ -63,7 +63,7 @@
                     android:layout_height="match_parent">
 
                     <RatingBar
-                        android:id="@+id/trainerratingBar"
+                        android:id="@+id/trainerRatingBar"
                         android:layout_height="wrap_content"
                         android:scaleX="0.4"
                         android:scaleY="0.4"
@@ -78,9 +78,10 @@
                     <!--<ImageView-->
                         <!--android:layout_height="wrap_content"-->
                         <!--app:srcCompat="@drawable/ic_thumb_up_black_24dp"-->
-                        <!--android:id="@+id/imageView5"-->
+                        <!--android:id="@+id/trainerAvailability"-->
                         <!--android:layout_width="30dp"-->
                         <!--android:layout_gravity="center_vertical" />-->
+
                 </LinearLayout>
 
                 <TextView

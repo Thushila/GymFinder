@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-public class JoinTrainerClubActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class JoinTrainerClubActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class JoinTrainerClubActivity extends AppCompatActivity implements Naviga
             startActivity(new Intent(JoinTrainerClubActivity.this, TrainerProfileActivity.class));
 
 
-        }else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             startActivity(new Intent(JoinTrainerClubActivity.this, RegisterActivity.class));
 
         }

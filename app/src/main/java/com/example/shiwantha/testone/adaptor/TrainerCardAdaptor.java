@@ -24,12 +24,11 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
 
     private final Activity context;
     private final ArrayList<TrainerObj> trainerObjArray;
-    public TrainerCardAdaptor(Activity context,  ArrayList<TrainerObj> trainerObjArray) {
+
+    public TrainerCardAdaptor(Activity context, ArrayList<TrainerObj> trainerObjArray) {
         super(context, R.layout.trainer_detail_card, trainerObjArray);
         this.context = context;
         this.trainerObjArray = trainerObjArray;
-
-
 
 
     }
@@ -37,19 +36,20 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.trainer_detail_card, null,true);
-        Log.e("Test1","huwaaaaaaakkbaaaar:: "+position);
 
-        TextView trainername = (TextView) rowView.findViewById(R.id.trainername);
-        ImageView trainerProfPic = (ImageView) rowView.findViewById(R.id.trainerProfPic);
-        RatingBar trainerratingBar =(RatingBar) rowView.findViewById(R.id.trainerratingBar);
-        ImageView availability = (ImageView) rowView.findViewById(R.id.availability);
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.trainer_detail_card, null, true);
+
+
+        TextView trainerName = (TextView) rowView.findViewById(R.id.trainerName);
+        ImageView trainerPic = (ImageView) rowView.findViewById(R.id.trainerPic);
+        RatingBar trainerRatingBar = (RatingBar) rowView.findViewById(R.id.trainerRatingBar);
+//      ImageView trainerAvailability = (ImageView) rowView.findViewById(R.id.trainerAvailability);
         TextView location = (TextView) rowView.findViewById(R.id.location);
 
-        trainername.setText(trainerObjArray.get(position).getName());
+        trainerName.setText(trainerObjArray.get(position).getName());
         location.setText(trainerObjArray.get(position).getLocation());
-        trainerratingBar.setRating(trainerObjArray.get(position).getRating());
+        trainerRatingBar.setRating(trainerObjArray.get(position).getRating());
 
         return rowView;
     }

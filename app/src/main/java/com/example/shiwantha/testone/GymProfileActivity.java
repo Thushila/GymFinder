@@ -109,9 +109,9 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
         TextView gymProfType = (TextView) findViewById(R.id.gymProfType);
         TextView gymProfWebsite = (TextView) findViewById(R.id.gymProfWebsite);
 
-        gymProfAddress.setText(gymObj.getNo()+" "+gymObj.getStreet()+" "+gymObj.getCity());
+        gymProfAddress.setText(gymObj.getNo() + " " + gymObj.getStreet() + " " + gymObj.getCity());
         gymProfPhone.setText(gymObj.getPhone());
-        gymProfPrice.setText( String.valueOf(gymObj.getPrice()));
+        gymProfPrice.setText(String.valueOf(gymObj.getPrice()));
         gymProfHours.setText(gymObj.getHours());
         gymProfType.setText(gymObj.getType());
         gymProfWebsite.setText(gymObj.getWebsite());
@@ -126,7 +126,6 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
         @Override
         protected String doInBackground(String... params) {
             try {
-                Log.e("Test2", "Log before :: ");
 
                 URL url = new URL("http://192.168.8.101:9000/api/gyms/" + params[0]);
 
@@ -137,7 +136,6 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
-                Log.e("Test2", "Log after :: " + responseCode);
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -147,9 +145,6 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
                 }
 
                 br.close();
-
-                Log.e("Test2", "Log 11111 :: " + responseOutput.toString());
-
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -167,12 +162,9 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
         @Override
         protected void onPostExecute(String gymStringObj) {
 
-            Log.e("Test2", "OnPost Data getGymsOnPostExecute :: " + gymStringObj);
-
             try {
 
                 JSONObject gymJSONObj = new JSONObject(gymStringObj);
-
 
                 gymObj.setGymId(gymJSONObj.getString("_id"));
                 gymObj.setName(gymJSONObj.getString("name"));
@@ -191,7 +183,6 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
-            Log.e("Test2", "OnPost Data getGymsOnPostExecute :: " + gymObj.getLongitude());
 
             setGymProfproperties();
         }

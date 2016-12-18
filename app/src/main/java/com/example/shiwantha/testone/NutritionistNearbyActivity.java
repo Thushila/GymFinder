@@ -40,8 +40,9 @@ import java.util.StringTokenizer;
 
 public class NutritionistNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-   // private String nutritionists;
-   ArrayList<NutritionistObj> nutritionistObjArray = new ArrayList<NutritionistObj>() ;
+    // private String nutritionists;
+    ArrayList<NutritionistObj> nutritionistObjArray = new ArrayList<NutritionistObj>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +89,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             startActivity(new Intent(NutritionistNearbyActivity.this, TrainerProfileActivity.class));
 
 
-        }else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_settings) {
             startActivity(new Intent(NutritionistNearbyActivity.this, RegisterActivity.class));
 
         }
@@ -98,11 +99,11 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         return true;
     }
 
-    public void sendAdapterData(ArrayList<NutritionistObj> nutritionistObjArray){
+    public void sendAdapterData(ArrayList<NutritionistObj> nutritionistObjArray) {
 
-        NutritionistCardAdaptor nutritionistCardAdaptor=new NutritionistCardAdaptor(this, nutritionistObjArray);
+        NutritionistCardAdaptor nutritionistCardAdaptor = new NutritionistCardAdaptor(this, nutritionistObjArray);
 
-        ListView nutritionistListView=(ListView)findViewById(R.id.nutritionistListView);
+        ListView nutritionistListView = (ListView) findViewById(R.id.nutritionistListView);
 
         nutritionistListView.setAdapter(nutritionistCardAdaptor);
 
@@ -121,7 +122,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
     }
 
 
-
     private class GetNutritionists extends AsyncTask<String, Void, String> {
 
         StringBuilder responseOutput;
@@ -132,36 +132,22 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
                 URL url = new URL("http://192.168.8.101:9000/api/nutritionist");
 
-                HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-               // String urlParameters = "fizz=buzz";
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("USER-AGENT", "Mozilla/5.0");
+
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
 
-//               System.out.println("\nSending 'GET' request to URL : " + url);
-//               System.out.println("GET parameters : " + urlParameters);
-//               System.out.println("Response Code : " + responseCode);
-
-//                final StringBuilder output = new StringBuilder("Request URL " + url);
-//                //output.append(System.getProperty("line.separator") + "Request Parameters " + urlParameters);
-//                output.append(System.getProperty("line.separator")  + "Response Code " + responseCode);
-//                output.append(System.getProperty("line.separator")  + "Type " + "GET");
-
-
-
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
                 responseOutput = new StringBuilder();
-                while((line = br.readLine()) != null ) {
+                while ((line = br.readLine()) != null) {
                     responseOutput.append(line);
                 }
 
                 br.close();
-
-                Log.e("Test1","Log 11111 :: "+responseOutput.toString());
-
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -173,20 +159,17 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                 return null;
             }
 
-            return  responseOutput.toString() ;
+            return responseOutput.toString();
         }
 
         @Override
         protected void onPostExecute(String nutrtionistsStringArray) {
 
-            Log.e("Test1","OnPost Data nutritionistOnPostExecute :: "+nutrtionistsStringArray);
-
             try {
 
                 JSONArray nutrtionistsJsonArray = new JSONArray(nutrtionistsStringArray);
 
-                 for (int i = 0; i < nutrtionistsJsonArray.length(); i++){
-
+                for (int i = 0; i < nutrtionistsJsonArray.length(); i++) {
 
                     NutritionistObj nutritionistObj = new NutritionistObj();
 
@@ -211,7 +194,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                 e.printStackTrace();
             }
 
-          //  super.onPostExecute(nutrtionistsStringArray);
+            //  super.onPostExecute(nutrtionistsStringArray);
         }
     }
 
