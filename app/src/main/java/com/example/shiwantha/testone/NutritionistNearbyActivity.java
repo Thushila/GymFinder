@@ -129,7 +129,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://192.168.8.102:9000/api/nutritionist");
+                URL url = new URL("http://192.168.8.101:9000/api/nutritionist");
 
                 HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                // String urlParameters = "fizz=buzz";
@@ -178,7 +178,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         @Override
         protected void onPostExecute(String nutrtionistsStringArray) {
 
-            Log.e("Test1","OnPost Data :: "+nutrtionistsStringArray);
+            Log.e("Test1","OnPost Data nutritionistOnPostExecute :: "+nutrtionistsStringArray);
 
             try {
 

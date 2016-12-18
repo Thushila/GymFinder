@@ -39,19 +39,19 @@ public class NutritionistCardAdaptor extends ArrayAdapter<NutritionistObj>{ //Nu
         View rowView=inflater.inflate(R.layout.nutritionist_detail_card, null,true);
 
         TextView nutritionistName = (TextView) rowView.findViewById(R.id.nutritionistName);
-        ImageView nutritionistProfPic = (ImageView) rowView.findViewById(R.id.nutritionistProfPic);
+        ImageView nutritionistPic = (ImageView) rowView.findViewById(R.id.nutritionistPic);
         RatingBar nutritionistRate =(RatingBar) rowView.findViewById(R.id.nutritionistRate);
-        ImageView availability = (ImageView) rowView.findViewById(R.id.availability);
-        TextView address = (TextView) rowView.findViewById(R.id.address);
+        ImageView nutritionistAvailability = (ImageView) rowView.findViewById(R.id.nutritionistAvailability);
+        TextView nutritionistAddress = (TextView) rowView.findViewById(R.id.nutritionistAddress);
 
         nutritionistName.setText(nutritionistObjArray.get(position).getName());
-        address.setText(nutritionistObjArray.get(position).getNo()+" "+nutritionistObjArray.get(position).getStreet()+" "+nutritionistObjArray.get(position).getCity());
+        nutritionistAddress.setText(nutritionistObjArray.get(position).getNo()+" "+nutritionistObjArray.get(position).getStreet()+" "+nutritionistObjArray.get(position).getCity());
         nutritionistRate.setRating((float)nutritionistObjArray.get(position).getRating());
        // availability.setImageIcon(Icon.createWithFilePath());
 
 
 //        nutritionistName.setText(itemname[position]);
-//        nutritionistProfPic.setImageResource(imgid[position]);
+//        nutritionistPic.setImageResource(imgid[position]);
 //        extratxt.setText("Description "+itemname[position]);@drawable/ic_thumb_up_black_24dp
         return rowView;
 
