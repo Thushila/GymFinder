@@ -1,0 +1,56 @@
+package com.example.shiwantha.testone.adaptor;
+
+import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import com.example.shiwantha.testone.Entity.TrainerObj;
+import com.example.shiwantha.testone.R;
+
+import java.util.ArrayList;
+
+/**
+ * Created by MSI on 12/16/2016.
+ */
+
+public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
+
+    private final Activity context;
+    private final ArrayList<TrainerObj> trainerObjArray;
+    public TrainerCardAdaptor(Activity context,  ArrayList<TrainerObj> trainerObjArray) {
+        super(context, R.layout.trainer_detail_card, trainerObjArray);
+        this.context = context;
+        this.trainerObjArray = trainerObjArray;
+
+
+
+
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater=context.getLayoutInflater();
+        View rowView=inflater.inflate(R.layout.trainer_detail_card, null,true);
+        Log.e("Test1","huwaaaaaaakkbaaaar:: "+position);
+
+        TextView trainername = (TextView) rowView.findViewById(R.id.trainername);
+        ImageView trainerProfPic = (ImageView) rowView.findViewById(R.id.trainerProfPic);
+        RatingBar trainerratingBar =(RatingBar) rowView.findViewById(R.id.trainerratingBar);
+        ImageView availability = (ImageView) rowView.findViewById(R.id.availability);
+        TextView location = (TextView) rowView.findViewById(R.id.location);
+
+        trainername.setText(trainerObjArray.get(position).getName());
+        location.setText(trainerObjArray.get(position).getLocation());
+        trainerratingBar.setRating(trainerObjArray.get(position).getRating());
+
+        return rowView;
+    }
+}

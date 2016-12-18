@@ -114,6 +114,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 //                // TODO Auto-generated method stub
 //                String Slecteditem= itemname[+position];
 //                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+
 //
 //            }
 //        });

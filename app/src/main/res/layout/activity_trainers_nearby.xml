@@ -33,6 +33,7 @@
 
         <include layout="@layout/content_trainers_nearby" />
 
+
     </android.support.design.widget.CoordinatorLayout>
 
 
