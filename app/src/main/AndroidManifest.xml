@@ -74,6 +74,10 @@
         <activity
             android:name=".NutritionistNearbyActivity"
             android:label="@string/title_activity_nutritionist_nearby"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NutritionistProfileActivity"
+            android:label="@string/title_activity_nutritionist_profile"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

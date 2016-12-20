@@ -1,12 +1,14 @@
 package com.example.shiwantha.testone.Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
  * Created by MSI on 12/16/2016.
  */
 
-public class TrainerObj {
+public class TrainerObj implements Parcelable {
     private String name;
     private String location;
     private String services;
@@ -17,6 +19,33 @@ public class TrainerObj {
     private boolean insured;
     private int rating;
     private String gender;
+
+    public TrainerObj(){}
+
+    protected TrainerObj(Parcel in) {
+        name = in.readString();
+        location = in.readString();
+        services = in.readString();
+        facilityOrHouseCalls = in.readString();
+        phone = in.readString();
+        price = in.readInt();
+        certification = in.readString();
+        insured = in.readByte() != 0;
+        rating = in.readInt();
+        gender = in.readString();
+    }
+
+    public static final Creator<TrainerObj> CREATOR = new Creator<TrainerObj>() {
+        @Override
+        public TrainerObj createFromParcel(Parcel in) {
+            return new TrainerObj(in);
+        }
+
+        @Override
+        public TrainerObj[] newArray(int size) {
+            return new TrainerObj[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -99,4 +128,22 @@ public class TrainerObj {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(location);
+        parcel.writeString(services);
+        parcel.writeString(facilityOrHouseCalls);
+        parcel.writeString(phone);
+        parcel.writeInt(price);
+        parcel.writeString(certification);
+        parcel.writeByte((byte) (insured ? 1 : 0));
+        parcel.writeInt(rating);
+        parcel.writeString(gender);
+    }
 }
