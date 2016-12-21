@@ -186,6 +186,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
                     trainerObj.setServices(trainerJsonObj.getString("services"));
                     trainerObj.setRating(trainerJsonObj.getInt("rating"));
                     trainerObj.setGender(trainerJsonObj.getString("gender"));
+                    trainerObj.setAvailability(trainerJsonObj.getBoolean("availability"));
 
                     trainerObjArray.add(trainerObj);
 

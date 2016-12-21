@@ -239,7 +239,7 @@
                             android:layout_weight="1"
                             android:textSize="@dimen/gym_profile_font_size" />
                     </LinearLayout>
-                    
+
 
 
                     <LinearLayout
