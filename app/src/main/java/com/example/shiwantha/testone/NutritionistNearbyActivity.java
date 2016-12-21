@@ -62,8 +62,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         new GetNutritionists().execute("hello");
 
 
-
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -90,7 +88,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(NutritionistNearbyActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {
@@ -190,9 +187,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                     nutritionistObjArray.add(nutritionistObj);
 
 
-
-
-
                 }
 
 //                sendAdapterData(nutritionistObjArray);
@@ -202,18 +196,18 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
                 nutritionistListView.setAdapter(nutritionistCardAdaptor);
 
-        nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
-               // String Slecteditem= itemname[+position];
-                Toast.makeText(getApplicationContext(), "hollo "+position, Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
+//                nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view,
+//                                            int position, long id) {
+//                        // TODO Auto-generated method stub
+//                        // String Slecteditem= itemname[+position];
+//                        Toast.makeText(getApplicationContext(), "hollo " + position, Toast.LENGTH_SHORT).show();
+//
+//
+//                    }
+//                });
 
 
             } catch (JSONException e) {

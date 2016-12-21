@@ -15,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shiwantha.testone.Entity.GymObj;
@@ -48,10 +50,9 @@ public class MainActivity extends AppCompatActivity
 
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
+    ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
-
-    ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(MainActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {
@@ -169,18 +170,76 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                GymObj selectedGymObj = allMarkersMap.get(marker);
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-                //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
-                Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
-                intent.putExtra("gymID", selectedGymObj.getGymId());
-                startActivity(intent);
-                return true;
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker args) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(final Marker marker) {
+
+                // Getting view from the layout file info_window_layout
+                View gym_detail_card = getLayoutInflater().inflate(R.layout.gym_detail_card, null);
+
+                // Getting the position from the marker
+
+                //---     clickMarkerLatLng = args.getPosition();
+
+                TextView gymText = (TextView) gym_detail_card.findViewById(R.id.gymText);
+                gymText.setText(marker.getTitle());
+
+                Button gymButton = (Button) gym_detail_card.findViewById(R.id.gymButton);
+
+                gymButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Log.e("test4", "" + marker.getTitle());
+                        GymObj selectedGymObj = allMarkersMap.get(marker);
+                        Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
+                        intent.putExtra("gymID", selectedGymObj.getGymId());
+                        startActivity(intent);
+
+
+                    }
+
+
+                });
+
+
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    public void onInfoWindowClick(Marker marker) {
+
+                        GymObj selectedGymObj = allMarkersMap.get(marker);
+                        Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
+                        intent.putExtra("gymID", selectedGymObj.getGymId());
+                        startActivity(intent);
+
+
+                    }
+                });
+
+
+                return gym_detail_card;
+
             }
         });
+
+
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                GymObj selectedGymObj = allMarkersMap.get(marker);
+//
+//                //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
+//                Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
+//                intent.putExtra("gymID", selectedGymObj.getGymId());
+//                startActivity(intent);
+//                return true;
+//            }
+//        });
 
     }
 
@@ -257,7 +316,7 @@ public class MainActivity extends AppCompatActivity
                     gymObjArray.add(gymObj);
 
                 }
-               
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

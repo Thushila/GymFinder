@@ -82,7 +82,6 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(NutritionistProfileActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {

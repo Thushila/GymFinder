@@ -86,7 +86,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(GymProfileActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {

@@ -80,7 +80,6 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(TrainerProfileActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {
