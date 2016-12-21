@@ -16,11 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -46,12 +48,16 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, SeekBar.OnSeekBarChangeListener {
 
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
 
+
     ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
+
+    private SeekBar seekBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +80,14 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        seekBar=(SeekBar)findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
+
+
+
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -184,6 +196,24 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override//get the position of the seekbar
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        Toast.makeText(getApplicationContext(),"seekbar progress: "+i, Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    @Override //seekbar started moving
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override //seekbar end moving
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+
+    }
+
 
     private class GetGyms extends AsyncTask<String, Void, String> {
 
@@ -193,7 +223,7 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://54.244.41.83:9000/api/gyms");
+                URL url = new URL("http://192.168.8.103:9000/api/gyms");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -250,10 +280,13 @@ public class MainActivity extends AppCompatActivity
                     gymObj.setStreet(gymJSONObj.getJSONObject("address").getString("street"));
                     gymObj.setCity(gymJSONObj.getJSONObject("address").getString("city"));
                     gymObj.setPrice(gymJSONObj.getDouble("price"));
-                    gymObj.setHours(gymJSONObj.getString("hours"));
+                   // gymObj.setHours(gymJSONObj.getString("hours"));
                     gymObj.setWebsite(gymJSONObj.getString("webSite"));
+                    gymObj.setWeekDayHours(gymJSONObj.getString("weekDayHours"));
+                    gymObj.setWeekDayHours(gymJSONObj.getString("saturdayHours"));
+                    gymObj.setSundayHours(gymJSONObj.getString("sundayHours"));
 
-
+                    Log.e("week","week::"+gymJSONObj.get("weekDayHours"));
                     gymObjArray.add(gymObj);
 
                 }

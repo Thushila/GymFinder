@@ -105,17 +105,23 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
         TextView gymProfAddress = (TextView) findViewById(R.id.gymProfAddress);
         TextView gymProfPhone = (TextView) findViewById(R.id.gymProfPhone);
         TextView gymProfPrice = (TextView) findViewById(R.id.gymProfPrice);
-        TextView gymProfHours = (TextView) findViewById(R.id.gymProfHours);
+        //TextView gymProfHours = (TextView) findViewById(R.id.gymProfHours);
         TextView gymProfType = (TextView) findViewById(R.id.gymProfType);
+        TextView weekdayHours=(TextView)findViewById(R.id.weekdayHours);
+        TextView saturdayHours=(TextView)findViewById(R.id.saturdayHours);
+        TextView sundayHours=(TextView)findViewById(R.id.sundayHours);
         TextView gymProfWebsite = (TextView) findViewById(R.id.gymProfWebsite);
 
         gymProfAddress.setText(gymObj.getNo() + " " + gymObj.getStreet() + " " + gymObj.getCity());
         gymProfPhone.setText(gymObj.getPhone());
         gymProfPrice.setText(String.valueOf(gymObj.getPrice()));
-        gymProfHours.setText(gymObj.getHours());
+      //  gymProfHours.setText(gymObj.getHours());
+        Log.e("log1","log1::"+gymObj.getWeekDayHours());
         gymProfType.setText(gymObj.getType());
         gymProfWebsite.setText(gymObj.getWebsite());
-
+        weekdayHours.setText(gymObj.getWeekDayHours());
+        saturdayHours.setText(gymObj.getSaturdayHours());
+        sundayHours.setText(gymObj.getSundayHours());
 
     }
 
@@ -128,7 +134,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
             try {
 
 
-                URL url = new URL("http://192.168.8.100:9000/api/gyms/" + params[0]);
+                URL url = new URL("http://192.168.8.103:9000/api/gyms/" + params[0]);
 
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -178,8 +184,11 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
                 gymObj.setStreet(gymJSONObj.getJSONObject("address").getString("street"));
                 gymObj.setCity(gymJSONObj.getJSONObject("address").getString("city"));
                 gymObj.setPrice(gymJSONObj.getDouble("price"));
-                gymObj.setHours(gymJSONObj.getString("hours"));
+               // gymObj.setHours(gymJSONObj.getString("hours"));
                 gymObj.setWebsite(gymJSONObj.getString("webSite"));
+                gymObj.setWeekDayHours(gymJSONObj.getString("weekDayHours"));
+                gymObj.setSaturdayHours(gymJSONObj.getString("saturdayHours"));
+                gymObj.setSundayHours(gymJSONObj.getString("sundayHours"));
 
 
             } catch (JSONException e1) {

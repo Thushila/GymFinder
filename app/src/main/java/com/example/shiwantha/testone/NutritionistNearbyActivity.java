@@ -132,7 +132,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             try {
 
 
-                URL url = new URL("http://10.0.3.2:9000/api/nutritionist");
+                URL url = new URL("http://192.168.8.103:9000/api/nutritionist");
 
                // URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
 
