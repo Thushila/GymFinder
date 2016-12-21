@@ -1,18 +1,25 @@
 package com.example.shiwantha.testone.adaptor;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shiwantha.testone.Entity.TrainerObj;
+import com.example.shiwantha.testone.GymProfileActivity;
+import com.example.shiwantha.testone.MainActivity;
 import com.example.shiwantha.testone.R;
+import com.example.shiwantha.testone.TrainerProfileActivity;
 
 import java.util.ArrayList;
 
@@ -35,12 +42,12 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.trainer_detail_card, null, true);
 
-
+        CardView cardView = (CardView) rowView.findViewById(R.id.trainerDetailCard);
         TextView trainerName = (TextView) rowView.findViewById(R.id.trainerName);
         ImageView trainerPic = (ImageView) rowView.findViewById(R.id.trainerPic);
         RatingBar trainerRatingBar = (RatingBar) rowView.findViewById(R.id.trainerRatingBar);
@@ -50,6 +57,18 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
         trainerName.setText(trainerObjArray.get(position).getName());
         location.setText(trainerObjArray.get(position).getLocation());
         trainerRatingBar.setRating(trainerObjArray.get(position).getRating());
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(context, TrainerProfileActivity.class);
+                intent.putExtra("trainerObj", trainerObjArray.get(position));
+                context.startActivity(intent);
+//                Toast.makeText(context, "hollo "+position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         return rowView;
     }

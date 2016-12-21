@@ -2,6 +2,7 @@ package com.example.shiwantha.testone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -10,20 +11,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.shiwantha.testone.Entity.GymObj;
+import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.Entity.TrainerObj;
+import com.example.shiwantha.testone.R;
 
-public class TrainerProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class NutritionistProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trainer_profile);
+        setContentView(R.layout.activity_nutritionist_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -36,55 +37,56 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         Intent trainerProfIntent = getIntent();
-        TrainerObj trainerObj = trainerProfIntent.getExtras().getParcelable("trainerObj");
+        NutritionistObj nutritionistObj = trainerProfIntent.getExtras().getParcelable("nutritionistObj");
 
-        TextView trainerProfService = (TextView) findViewById(R.id.trainerProfService);
-        TextView trainerProfCertification = (TextView) findViewById(R.id.trainerProfCertification);
-        TextView trainerProfInsured = (TextView) findViewById(R.id.trainerProfInsured);
-        TextView trainerProfHouseCallFac = (TextView) findViewById(R.id.trainerProfHouseCallFac);
-        TextView trainerProfLocation = (TextView) findViewById(R.id.trainerProfLocation);
+        TextView nutritionistProfName = (TextView) findViewById(R.id.nutritionistProfName);
+        TextView nutritionistProfPhone = (TextView) findViewById(R.id.nutritionistProfPhone);
+        TextView nutritionistProfAddress = (TextView) findViewById(R.id.nutritionistProfAddress);
 
-        trainerProfService.setText(trainerObj.getServices());
-        trainerProfCertification.setText(trainerObj.getCertification());
-        trainerProfInsured.setText(String.valueOf(trainerObj.getInsured()));
-        trainerProfHouseCallFac.setText(trainerObj.getFacilityOrHouseCalls());
-        trainerProfLocation.setText(trainerObj.getLocation());
+//        TextView trainerProfHouseCallFac = (TextView) findViewById(R.id.trainerProfHouseCallFac);
+//        TextView trainerProfLocation = (TextView) findViewById(R.id.trainerProfLocation);
+
+        nutritionistProfName.setText(nutritionistObj.getName());
+        nutritionistProfPhone.setText(nutritionistObj.getPhone());
+        nutritionistProfAddress.setText(nutritionistObj.getNo()+" "+nutritionistObj.getStreet()+" "+nutritionistObj.getCity());
+//        trainerProfHouseCallFac.setText(trainerObj.getFacilityOrHouseCalls());
+//        trainerProfLocation.setText(trainerObj.getLocation());
 
 
-
-        Log.e("Test3","j "+trainerObj.getName());
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_gym) {
-            startActivity(new Intent(TrainerProfileActivity.this, MainActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, MainActivity.class));
 
         } else if (id == R.id.nav_trainer) {
-            startActivity(new Intent(TrainerProfileActivity.this, TrainersNearbyActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, TrainersNearbyActivity.class));
 
         } else if (id == R.id.nav_nutri) {
-            startActivity(new Intent(TrainerProfileActivity.this, NutritionistNearbyActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(TrainerProfileActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, JoinTrainerClubActivity.class));
 
 
         } else if (id == R.id.nav_events) {
-            startActivity(new Intent(TrainerProfileActivity.this, UserProfileActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, UserProfileActivity.class));
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(TrainerProfileActivity.this, TrainerProfileActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(TrainerProfileActivity.this, RegisterActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, RegisterActivity.class));
 
         }
 
@@ -92,5 +94,4 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

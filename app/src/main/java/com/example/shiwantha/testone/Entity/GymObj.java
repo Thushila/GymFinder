@@ -1,10 +1,13 @@
 package com.example.shiwantha.testone.Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by shiwantha on 12/17/16.
  */
 
-public class GymObj {
+public class GymObj implements Parcelable{
 
     private String gymId;
     private String name;
@@ -22,6 +25,33 @@ public class GymObj {
     public GymObj(){
 
     }
+
+    protected GymObj(Parcel in) {
+        gymId = in.readString();
+        name = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        type = in.readString();
+        no = in.readString();
+        street = in.readString();
+        city = in.readString();
+        phone = in.readString();
+        price = in.readDouble();
+        hours = in.readString();
+        webSite = in.readString();
+    }
+
+    public static final Creator<GymObj> CREATOR = new Creator<GymObj>() {
+        @Override
+        public GymObj createFromParcel(Parcel in) {
+            return new GymObj(in);
+        }
+
+        @Override
+        public GymObj[] newArray(int size) {
+            return new GymObj[size];
+        }
+    };
 
     public String getGymId() {
         return gymId;
@@ -106,5 +136,26 @@ public class GymObj {
     }
     public void setWebsite(String webSite) {
         this.webSite = webSite;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(gymId);
+        parcel.writeString(name);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
+        parcel.writeString(type);
+        parcel.writeString(no);
+        parcel.writeString(street);
+        parcel.writeString(city);
+        parcel.writeString(phone);
+        parcel.writeDouble(price);
+        parcel.writeString(hours);
+        parcel.writeString(webSite);
     }
 }

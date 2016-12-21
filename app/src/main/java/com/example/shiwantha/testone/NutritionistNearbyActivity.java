@@ -60,6 +60,10 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         navigationView.setNavigationItemSelectedListener(this);
 
         new GetNutritionists().execute("hello");
+
+
+
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -130,7 +134,11 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://192.168.8.100:9000/api/nutritionist");
+
+                URL url = new URL("http://10.0.3.2:9000/api/nutritionist");
+
+               // URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
+
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -185,9 +193,31 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
                     nutritionistObjArray.add(nutritionistObj);
 
+
+
+
+
                 }
 
-                sendAdapterData(nutritionistObjArray);
+//                sendAdapterData(nutritionistObjArray);
+                NutritionistCardAdaptor nutritionistCardAdaptor = new NutritionistCardAdaptor(NutritionistNearbyActivity.this, nutritionistObjArray);
+
+                ListView nutritionistListView = (ListView) findViewById(R.id.nutritionistListView);
+
+                nutritionistListView.setAdapter(nutritionistCardAdaptor);
+
+        nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // TODO Auto-generated method stub
+               // String Slecteditem= itemname[+position];
+                Toast.makeText(getApplicationContext(), "hollo "+position, Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
 
 
             } catch (JSONException e) {
@@ -196,6 +226,8 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
             //  super.onPostExecute(nutrtionistsStringArray);
         }
+
+
     }
 
 }

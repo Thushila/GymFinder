@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="20dp"
                 app:srcCompat="@drawable/user_logo"
-                android:id="@+id/imageView2"
+                android:id="@+id/trainerProfPic"
                 android:layout_weight="3"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="90dp" />
@@ -86,7 +86,7 @@
                         android:text="Yoga, Running"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/serviceValue"
+                        android:id="@+id/trainerProfService"
                         android:layout_weight="2"/>
                 </LinearLayout>
                 <LinearLayout
@@ -108,7 +108,7 @@
                         android:text="#948dhj"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/certificationValue"
+                        android:id="@+id/trainerProfCertification"
                         android:layout_weight="2"/>
                 </LinearLayout>
                 <LinearLayout
@@ -130,7 +130,7 @@
                         android:text="Yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/insuredValue"
+                        android:id="@+id/trainerProfInsured"
                         android:layout_weight="1.96"/>
                 </LinearLayout>
                 <LinearLayout
@@ -152,7 +152,7 @@
                         android:text="Both"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/callTypeValue"
+                        android:id="@+id/trainerProfHouseCallFac"
                         android:layout_weight="2"/>
                 </LinearLayout>
                 <LinearLayout
@@ -174,7 +174,7 @@
                         android:text="Gym"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/locationValue"
+                        android:id="@+id/trainerProfLocation"
                         android:layout_weight="2"/>
                 </LinearLayout>
                 <TextView

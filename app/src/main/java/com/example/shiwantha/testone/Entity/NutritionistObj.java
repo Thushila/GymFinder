@@ -1,10 +1,15 @@
 package com.example.shiwantha.testone.Entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.shiwantha.testone.NutritionistNearbyActivity;
+
 /**
  * Created by shiwantha on 12/16/16.
  */
 
-public class NutritionistObj {
+public class NutritionistObj implements Parcelable {
 
         private String name;
         private String phone;
@@ -14,8 +19,30 @@ public class NutritionistObj {
         private Boolean availability;
         private double rating;
 
+        public NutritionistObj(){}
 
-        public String getName() {
+    protected NutritionistObj(Parcel in) {
+        name = in.readString();
+        phone = in.readString();
+        no = in.readString();
+        street = in.readString();
+        city = in.readString();
+        rating = in.readDouble();
+    }
+
+    public static final Creator<NutritionistObj> CREATOR = new Creator<NutritionistObj>() {
+        @Override
+        public NutritionistObj createFromParcel(Parcel in) {
+            return new NutritionistObj(in);
+        }
+
+        @Override
+        public NutritionistObj[] newArray(int size) {
+            return new NutritionistObj[size];
+        }
+    };
+
+    public String getName() {
             return name;
         }
         public void setName(String name) {
@@ -64,4 +91,19 @@ public class NutritionistObj {
         public void setRating(double rating) {
           this.rating = rating;
         }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
+        parcel.writeString(phone);
+        parcel.writeString(no);
+        parcel.writeString(street);
+        parcel.writeString(city);
+        parcel.writeDouble(rating);
+    }
 }

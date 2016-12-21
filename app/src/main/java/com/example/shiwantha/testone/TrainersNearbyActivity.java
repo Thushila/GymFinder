@@ -1,5 +1,6 @@
 package com.example.shiwantha.testone;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.shiwantha.testone.Entity.TrainerObj;
 import com.example.shiwantha.testone.adaptor.TrainerCardAdaptor;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         setContentView(R.layout.activity_trainers_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        activity = TrainersNearbyActivity.this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,18 +101,27 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         TrainerCardAdaptor trainerCardAdaptor = new TrainerCardAdaptor(this, trinerObjArraya);
 
         ListView trainerListView = (ListView) findViewById(R.id.trainerListView);
+        trainerListView.setAdapter(trainerCardAdaptor);
+
         trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             @Override
-            public void onItemClick(AdapterView<?> trainerCardAdaptor, View view, int i, long l) {
-                if (true) {
-                    Intent myIntent = new Intent(view.getContext(), TrainerProfileActivity.class);
-                    startActivityForResult(myIntent, 0);
-                }
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(), "hollo "+i, Toast.LENGTH_SHORT).show();
             }
         });
-        trainerListView.setAdapter(trainerCardAdaptor);
+
+//        trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> trainerCardAdaptor, View view, int i, long l) {
+//                Toast.makeText(getApplicationContext(), "hollo "+i, Toast.LENGTH_SHORT).show();
+//                if (true) {
+//                    Intent myIntent = new Intent(view.getContext(), TrainerProfileActivity.class);
+//                    startActivityForResult(myIntent, 0);
+//                }
+//            }
+//        });
     }
 
     private class GetTrainers extends AsyncTask<String, Void, String> {
@@ -116,9 +129,11 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
         @Override
         protected String doInBackground(String... strings) {
-
+            //54.244.41.83
             try {
-                URL url = new URL("http://192.168.8.100:9000/api/trainers");
+
+                URL url = new URL("http://10.0.3.2:9000/api/trainers");
+
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
 
@@ -149,9 +164,10 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
         @Override
         protected void onPostExecute(String trainerStringArray) {
-
+            Log.e("test4","qq"+trainerStringArray);
 
             try {
+
                 JSONArray trainerJsonArray = new JSONArray(trainerStringArray);
 
                 for (int i = 0; i < trainerJsonArray.length(); i++) {
@@ -176,7 +192,20 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
                 }
 
-                sendAdapterData(trainerObjArray);
+//                sendAdapterData(trainerObjArray);
+
+                TrainerCardAdaptor trainerCardAdaptor = new TrainerCardAdaptor(activity, trainerObjArray);
+
+                ListView trainerListView = (ListView) findViewById(R.id.trainerListView);
+                trainerListView.setAdapter(trainerCardAdaptor);
+
+//                trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                        Toast.makeText(getApplicationContext(), "hollo "+i, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
