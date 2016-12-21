@@ -56,7 +56,6 @@ public class JoinTrainerClubActivity extends AppCompatActivity implements Naviga
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(JoinTrainerClubActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {

@@ -1,28 +1,26 @@
 package com.example.shiwantha.testone;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
+import android.view.View;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.shiwantha.testone.Entity.GymObj;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
+import com.example.shiwantha.testone.Entity.NutritionistObj;
+import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,32 +46,17 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
-    private static final String TAG = "inside";
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
 
     ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
 
-    private double latitude;
-    private double longitude;
-
-    //Google ApiClient
-    private GoogleApiClient googleApiClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .build();
-//        getCurrentLocation();
-      //  onConnected(savedInstanceState);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -174,7 +157,6 @@ public class MainActivity extends AppCompatActivity
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(7.8, 80.77), 11.0f));
 
-
     }
 
     private void addMapMarkers() {
@@ -184,7 +166,6 @@ public class MainActivity extends AppCompatActivity
 
             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(gymObj.getLatitude(), gymObj.getLongitude())).title("Capital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
             allMarkersMap.put(marker, gymObj);
-
 
         }
 
@@ -203,86 +184,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //Getting current location
-    private void getCurrentLocation() {
-//        Log.e("Location11","hhh"+longitude);
-//
-//        //Creating a location object
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-//        if (location != null) {
-//            //Getting longitude and latitude
-//            longitude = location.getLongitude();
-//            latitude = location.getLatitude();
-//
-//
-//        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // setUpMapIfNeeded();
-        googleApiClient.connect();
-
-
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (googleApiClient.isConnected()) {
-
-            googleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.e("not connceted?","conection:::::"+googleApiClient.isConnected());
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        if (location == null) {
-            // Blank for a moment...
-        }
-        else {
-            handleNewLocation(location);
-        };
-    }
-    private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.i(TAG, "Location services suspended. Please reconnect.");
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
 
     private class GetGyms extends AsyncTask<String, Void, String> {
 
@@ -292,11 +193,7 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://10.0.3.2:9000/api/gyms");
-
-
-
-
+                URL url = new URL("http://54.244.41.83:9000/api/gyms");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -305,7 +202,6 @@ public class MainActivity extends AppCompatActivity
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
-                Log.e("Test1","  "+responseCode);
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -368,9 +264,7 @@ public class MainActivity extends AppCompatActivity
 
             addMapMarkers();
 
-
         }
-
     }
 
 

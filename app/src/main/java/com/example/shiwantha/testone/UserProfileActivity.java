@@ -56,7 +56,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(UserProfileActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {

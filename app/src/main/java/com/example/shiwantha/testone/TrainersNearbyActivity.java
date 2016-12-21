@@ -83,7 +83,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(TrainersNearbyActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {

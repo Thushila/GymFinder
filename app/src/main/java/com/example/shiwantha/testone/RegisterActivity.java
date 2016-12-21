@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(RegisterActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {
