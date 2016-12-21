@@ -81,6 +81,30 @@
                     android:orientation="vertical"
                     android:weightSum="1">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="2"
+                            android:text="Name:"
+                            android:textSize="@dimen/gym_profile_font_size" />
+
+                        <TextView
+                            android:id="@+id/gymProfName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/gym_profile_font_size" />
+                    </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -254,7 +278,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_weight="2"
-                            android:text="Type:"
+                            android:text="WebSite:"
                             android:textSize="@dimen/gym_profile_font_size" />
 
                         <TextView

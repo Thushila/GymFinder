@@ -21,6 +21,7 @@ import com.example.shiwantha.testone.Entity.GymObj;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -101,7 +102,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
 
 
     private void setGymProfproperties() {
-
+        TextView gymprofileName=(TextView)findViewById(R.id.gymProfName) ;
         TextView gymProfAddress = (TextView) findViewById(R.id.gymProfAddress);
         TextView gymProfPhone = (TextView) findViewById(R.id.gymProfPhone);
         TextView gymProfPrice = (TextView) findViewById(R.id.gymProfPrice);
@@ -122,6 +123,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
         weekdayHours.setText(gymObj.getWeekDayHours());
         saturdayHours.setText(gymObj.getSaturdayHours());
         sundayHours.setText(gymObj.getSundayHours());
+        gymprofileName.setText(gymObj.getName());
 
     }
 
@@ -173,7 +175,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
             try {
 
                 JSONObject gymJSONObj = new JSONObject(gymStringObj);
-
+                gymObj.setName(gymJSONObj.getString("name"));
                 gymObj.setGymId(gymJSONObj.getString("_id"));
                 gymObj.setName(gymJSONObj.getString("name"));
                 gymObj.setLatitude(gymJSONObj.getDouble("latitude"));

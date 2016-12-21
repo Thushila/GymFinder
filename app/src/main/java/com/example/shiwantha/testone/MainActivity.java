@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity
                     gymObj.setWeekDayHours(gymJSONObj.getString("saturdayHours"));
                     gymObj.setSundayHours(gymJSONObj.getString("sundayHours"));
 
-                    Log.e("week","week::"+gymJSONObj.get("weekDayHours"));
+                    Log.e("name","name::"+gymJSONObj.get("name"));
                     gymObjArray.add(gymObj);
 
                 }
