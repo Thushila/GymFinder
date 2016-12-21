@@ -130,7 +130,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://192.168.8.101:9000/api/nutritionist");
+                URL url = new URL("http://192.168.8.100:9000/api/nutritionist");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 

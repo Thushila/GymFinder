@@ -118,13 +118,15 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         protected String doInBackground(String... strings) {
 
             try {
-                URL url = new URL("http://192.168.8.101:9000/api/trainers");
+                URL url = new URL("http://192.168.8.100:9000/api/trainers");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
 
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
+
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
@@ -170,6 +172,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
                     trainerObj.setGender(trainerJsonObj.getString("gender"));
 
                     trainerObjArray.add(trainerObj);
+
 
                 }
 

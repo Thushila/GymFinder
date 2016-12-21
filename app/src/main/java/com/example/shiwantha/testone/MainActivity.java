@@ -193,7 +193,8 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://192.168.8.101:9000/api/gyms");
+                URL url = new URL("http://192.168.8.100:9000/api/gyms");
+
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -202,6 +203,7 @@ public class MainActivity extends AppCompatActivity
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
 
                 int responseCode = connection.getResponseCode();
+                Log.e("Test1","  "+responseCode);
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String line = "";
