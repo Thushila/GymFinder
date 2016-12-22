@@ -2,6 +2,7 @@ package com.example.shiwantha.testone;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -12,14 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-public class RegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MessagesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_messages);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,44 +31,35 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        final Button registerInButton = (Button) findViewById(R.id.create_account);
-        registerInButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-            }
-        });
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_gym) {
-            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+            startActivity(new Intent(MessagesActivity.this, MainActivity.class));
 
         } else if (id == R.id.nav_trainer) {
-            startActivity(new Intent(RegisterActivity.this, TrainersNearbyActivity.class));
+            startActivity(new Intent(MessagesActivity.this, TrainersNearbyActivity.class));
 
         } else if (id == R.id.nav_nutri) {
-            startActivity(new Intent(RegisterActivity.this, NutritionistNearbyActivity.class));
+            startActivity(new Intent(MessagesActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(RegisterActivity.this, MessagesActivity.class));
+            startActivity(new Intent(MessagesActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
-            startActivity(new Intent(RegisterActivity.this, UserProfileActivity.class));
+            startActivity(new Intent(MessagesActivity.this, UserProfileActivity.class));
 
 
         } else if (id == R.id.nav_payment) {
 
 
-
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(RegisterActivity.this, RegisterActivity.class));
+            startActivity(new Intent(MessagesActivity.this, RegisterActivity.class));
 
         }
 
@@ -76,5 +67,4 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

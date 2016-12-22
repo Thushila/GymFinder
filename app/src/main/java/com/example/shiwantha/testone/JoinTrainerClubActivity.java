@@ -48,7 +48,7 @@ public class JoinTrainerClubActivity extends AppCompatActivity implements Naviga
             startActivity(new Intent(JoinTrainerClubActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(JoinTrainerClubActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(JoinTrainerClubActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {

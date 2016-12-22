@@ -78,6 +78,10 @@
         <activity
             android:name=".NutritionistProfileActivity"
             android:label="@string/title_activity_nutritionist_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MessagesActivity"
+            android:label="@string/title_activity_messages"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(MainActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(MainActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_payment) {
-
 
 
         } else if (id == R.id.nav_settings) {
@@ -185,34 +184,39 @@ public class MainActivity extends AppCompatActivity
                 // Getting view from the layout file info_window_layout
                 View gym_detail_card = getLayoutInflater().inflate(R.layout.gym_detail_card, null);
 
+                final GymObj selectedGymObj = allMarkersMap.get(marker);
+
                 // Getting the position from the marker
 
                 //---     clickMarkerLatLng = args.getPosition();
 
-                TextView gymText = (TextView) gym_detail_card.findViewById(R.id.gymText);
-                gymText.setText(marker.getTitle());
+                TextView gymName = (TextView) gym_detail_card.findViewById(R.id.gymName);
+                TextView gymAddress = (TextView) gym_detail_card.findViewById(R.id.gymAddress);
+                TextView gymPhone = (TextView) gym_detail_card.findViewById(R.id.gymPhone);
+                TextView gymType = (TextView) gym_detail_card.findViewById(R.id.gymType);
+
+                gymName.setText(selectedGymObj.getName());
+                gymAddress.setText(selectedGymObj.getNo()+" "+selectedGymObj.getStreet()+" "+selectedGymObj.getCity());
+                gymPhone.setText(selectedGymObj.getPhone());
+                gymType.setText(selectedGymObj.getType());
 
                 Button gymButton = (Button) gym_detail_card.findViewById(R.id.gymButton);
 
                 gymButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
                         Log.e("test4", "" + marker.getTitle());
-                        GymObj selectedGymObj = allMarkersMap.get(marker);
+                        Toast.makeText(getApplicationContext(), "msg msg", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
                         intent.putExtra("gymID", selectedGymObj.getGymId());
                         startActivity(intent);
-
-
                     }
-
-
                 });
 
 
                 mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                     public void onInfoWindowClick(Marker marker) {
 
-                        GymObj selectedGymObj = allMarkersMap.get(marker);
+
                         Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
                         intent.putExtra("gymID", selectedGymObj.getGymId());
                         startActivity(intent);
@@ -252,7 +256,7 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://54.244.41.83:9000/api/gyms");
+                URL url = new URL("http://54.244.41.83:9000/api/gyms"); //http://54.244.41.83:9000/api/gyms
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -309,6 +313,8 @@ public class MainActivity extends AppCompatActivity
                     gymObj.setStreet(gymJSONObj.getJSONObject("address").getString("street"));
                     gymObj.setCity(gymJSONObj.getJSONObject("address").getString("city"));
                     gymObj.setPrice(gymJSONObj.getDouble("price"));
+                    gymObj.setHours(gymJSONObj.getString("hours"));
+                    gymObj.setHours(gymJSONObj.getString("hours"));
                     gymObj.setHours(gymJSONObj.getString("hours"));
                     gymObj.setWebsite(gymJSONObj.getString("webSite"));
 

@@ -75,7 +75,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             startActivity(new Intent(TrainersNearbyActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(TrainersNearbyActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {

@@ -80,7 +80,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             startActivity(new Intent(NutritionistNearbyActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(NutritionistNearbyActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(NutritionistNearbyActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
