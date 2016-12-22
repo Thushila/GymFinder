@@ -88,6 +88,30 @@
                         android:weightSum="3">
 
                         <TextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="2"
+                            android:text="Name:"
+                            android:textSize="@dimen/gym_profile_font_size" />
+
+                        <TextView
+                            android:id="@+id/gymProfName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/gym_profile_font_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <TextView
                             android:id="@+id/adrs"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -102,7 +126,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_weight="1"
-                            android:text="Elm Street, St Phoenix, AZ"
                             android:textSize="@dimen/gym_profile_font_size" />
                     </LinearLayout>
 
@@ -158,6 +181,7 @@
                             android:textSize="@dimen/gym_profile_font_size" />
                     </LinearLayout>
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -166,47 +190,50 @@
 
                         <TextView
                             android:id="@+id/time"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="Hours:"
                             android:textSize="@dimen/gym_profile_font_size"
-                            android:weightSum="2" />
+                            android:layout_weight="0.8" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:weightSum="1">
+                            android:layout_gravity="left"
+                            android:gravity="left">
 
                             <TextView
-                                android:id="@+id/gymProfHours"
+                                android:id="@+id/weekdayHours"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:text="M-F:8am-8pm"
+                                android:layout_gravity="left"
+                                android:layout_weight="1"
+                                android:textSize="@dimen/gym_profile_font_size" />
+
+                            <!--android:text="M-F:8am-8pm"-->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/saturdayHours"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+
                                 android:textSize="@dimen/gym_profile_font_size" />
 
 
-                            <!--<TextView-->
-                            <!--android:text="Sun: Closed"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/close"-->
-                            <!--android:layout_marginTop="5dp"-->
-                            <!--android:textSize="@dimen/gym_profile_font_size"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:layout_gravity="right"/>-->
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/sundayHours"
+                                android:layout_marginTop="5dp"
+                                android:textSize="@dimen/gym_profile_font_size"
+                                android:layout_weight="1"
+                                android:layout_gravity="left"/>
 
-                            <!--<TextView-->
-                            <!--android:text="Sat:10am-6pm"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:id="@+id/rate2"-->
-                            <!--android:layout_marginTop="5dp"-->
-                            <!--android:layout_weight="1.28"-->
-                            <!--android:layout_marginLeft="70dp"-->
-                            <!--android:textSize="@dimen/gym_profile_font_size" />-->
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -236,33 +263,32 @@
                             android:layout_weight="1"
                             android:textSize="@dimen/gym_profile_font_size" />
                     </LinearLayout>
-                    <!--android:text="Traditinal,Yoga"-->
+
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="3">
 
                         <TextView
                             android:id="@+id/website"
-                            android:layout_width="232dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_weight="2"
-                            android:text="Web Site:"
+                            android:text="WebSite:"
                             android:textSize="@dimen/gym_profile_font_size" />
 
                         <TextView
 
                             android:id="@+id/gymProfWebsite"
-                            android:layout_width="232dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:textSize="@dimen/gym_profile_font_size" />
-                        <!--android:text="www.lafitness.com"-->
-
                     </LinearLayout>
 
 

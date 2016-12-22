@@ -17,12 +17,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,11 +50,16 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, SeekBar.OnSeekBarChangeListener {
 
-    ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
+
+
+    ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
+
+    private SeekBar seekBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +82,14 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        seekBar=(SeekBar)findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
+
+
+
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -134,7 +147,7 @@ public class MainActivity extends AppCompatActivity
 
 
         } else if (id == R.id.nav_payment) {
-
+            startActivity(new Intent(MainActivity.this, TrainerProfileActivity.class));
 
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
@@ -177,7 +190,6 @@ public class MainActivity extends AppCompatActivity
                 return null;
             }
 
-            // Defines the contents of the InfoWindow
             @Override
             public View getInfoContents(final Marker marker) {
 
@@ -196,7 +208,7 @@ public class MainActivity extends AppCompatActivity
                 TextView gymType = (TextView) gym_detail_card.findViewById(R.id.gymType);
 
                 gymName.setText(selectedGymObj.getName());
-                gymAddress.setText(selectedGymObj.getNo()+" "+selectedGymObj.getStreet()+" "+selectedGymObj.getCity());
+                gymAddress.setText(selectedGymObj.getNo() + " " + selectedGymObj.getStreet() + " " + selectedGymObj.getCity());
                 gymPhone.setText(selectedGymObj.getPhone());
                 gymType.setText(selectedGymObj.getType());
 
@@ -213,37 +225,42 @@ public class MainActivity extends AppCompatActivity
                 });
 
 
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    public void onInfoWindowClick(Marker marker) {
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        GymObj selectedGymObj = allMarkersMap.get(marker);
 
-
+                        //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
                         Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
                         intent.putExtra("gymID", selectedGymObj.getGymId());
                         startActivity(intent);
-
-
+                        return true;
                     }
                 });
 
+                // Defines the contents of the InfoWindow
 
-                return gym_detail_card;
-
+                   return gym_detail_card;
             }
         });
 
+    }
 
-//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker marker) {
-//                GymObj selectedGymObj = allMarkersMap.get(marker);
-//
-//                //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
-//                Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
-//                intent.putExtra("gymID", selectedGymObj.getGymId());
-//                startActivity(intent);
-//                return true;
-//            }
-//        });
+    @Override//get the position of the seekbar
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        Toast.makeText(getApplicationContext(),"seekbar progress: "+i, Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    @Override //seekbar started moving
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override //seekbar end moving
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
 
     }
 
@@ -313,16 +330,15 @@ public class MainActivity extends AppCompatActivity
                     gymObj.setStreet(gymJSONObj.getJSONObject("address").getString("street"));
                     gymObj.setCity(gymJSONObj.getJSONObject("address").getString("city"));
                     gymObj.setPrice(gymJSONObj.getDouble("price"));
-                    gymObj.setHours(gymJSONObj.getString("hours"));
-                    gymObj.setHours(gymJSONObj.getString("hours"));
-                    gymObj.setHours(gymJSONObj.getString("hours"));
                     gymObj.setWebsite(gymJSONObj.getString("webSite"));
-
+                    gymObj.setWeekDayHours(gymJSONObj.getString("weekDayHours"));
+                    gymObj.setWeekDayHours(gymJSONObj.getString("saturdayHours"));
+                    gymObj.setSundayHours(gymJSONObj.getString("sundayHours"));
 
                     gymObjArray.add(gymObj);
 
                 }
-
+               
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -334,3 +350,4 @@ public class MainActivity extends AppCompatActivity
 
 
 }
+

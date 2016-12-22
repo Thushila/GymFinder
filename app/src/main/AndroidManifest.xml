@@ -8,6 +8,7 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -75,6 +76,7 @@
             android:name=".NutritionistNearbyActivity"
             android:label="@string/title_activity_nutritionist_nearby"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".NutritionistProfileActivity"
             android:label="@string/title_activity_nutritionist_profile"
@@ -83,6 +85,7 @@
             android:name=".MessagesActivity"
             android:label="@string/title_activity_messages"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

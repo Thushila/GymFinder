@@ -21,6 +21,9 @@ public class GymObj implements Parcelable{
     private double price;
     private String hours;
     private String webSite;
+    private String weekDayHours;
+    private String saturdayHours;
+    private String sundayHours;
 
     public GymObj(){
 
@@ -39,6 +42,9 @@ public class GymObj implements Parcelable{
         price = in.readDouble();
         hours = in.readString();
         webSite = in.readString();
+        sundayHours=in.readString();
+        weekDayHours=in.readString();
+        saturdayHours=in.readString();
     }
 
     public static final Creator<GymObj> CREATOR = new Creator<GymObj>() {
@@ -124,12 +130,6 @@ public class GymObj implements Parcelable{
         this.price = price;
     }
 
-    public String getHours() {
-        return hours;
-    }
-    public void setHours(String hours) {
-        this.hours = hours;
-    }
 
     public String getWebsite() {
         return webSite;
@@ -137,6 +137,27 @@ public class GymObj implements Parcelable{
     public void setWebsite(String webSite) {
         this.webSite = webSite;
     }
+
+    public String getWeekDayHours() {
+        return weekDayHours;
+    }
+    public void setWeekDayHours(String weekDayHours) {
+        this.weekDayHours = weekDayHours;
+    }
+
+    public String getSaturdayHours() {
+        return saturdayHours;
+    }
+    public void setSaturdayHours(String saturdayHours) {
+        this.saturdayHours = saturdayHours;
+    }public String getSundayHours() {
+        return sundayHours;
+    }
+    public void setSundayHours(String sundayHours) {
+        this.sundayHours = sundayHours;
+    }
+
+
 
     @Override
     public int describeContents() {

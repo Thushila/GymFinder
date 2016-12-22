@@ -2,6 +2,7 @@ package com.example.shiwantha.testone.adaptor;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Icon;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,9 +50,13 @@ public class NutritionistCardAdaptor extends ArrayAdapter<NutritionistObj>{ //Nu
 
 
 
+
         nutritionistName.setText(nutritionistObjArray.get(position).getName());
         nutritionistAddress.setText(nutritionistObjArray.get(position).getNo()+" "+nutritionistObjArray.get(position).getStreet()+" "+nutritionistObjArray.get(position).getCity());
         nutritionistRate.setRating((float)nutritionistObjArray.get(position).getRating());
+        if (nutritionistObjArray.get(position).getAvailability()==true){
+            nutritionistAvailability.setVisibility(View.VISIBLE);
+        }
        // availability.setImageIcon(Icon.createWithFilePath());
 
 
