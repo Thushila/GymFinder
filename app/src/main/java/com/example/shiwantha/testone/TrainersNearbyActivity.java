@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
     Activity activity;
+    Button mJoinTrainersClub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         setContentView(R.layout.activity_trainers_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mJoinTrainersClub = (Button) findViewById(R.id.join_trainer_club);
         activity = TrainersNearbyActivity.this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -54,6 +57,14 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //adding join trainers club button listener
+        mJoinTrainersClub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class));
+            }
+        });
 
         //add getTrainer method and execute
         new GetTrainers().execute("hello");

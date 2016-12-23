@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:ems="10"
-                    android:id="@+id/email_email"
+                    android:id="@+id/trainer_email"
                     android:layout_weight="1"
                     android:hint="Email" />
             </android.support.design.widget.TextInputLayout>
@@ -102,7 +102,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:ems="10"
-                    android:id="@+id/register_city"
+                    android:id="@+id/trainer_city"
                     android:layout_weight="1"
                     android:hint="City" />
             </android.support.design.widget.TextInputLayout>
