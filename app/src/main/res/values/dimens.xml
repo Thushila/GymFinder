@@ -8,4 +8,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="gym_profile_font_size">20sp</dimen>
     <dimen name="main_view_font_size">10sp</dimen>
+    <dimen name="seek_bar_text_size">16.5sp</dimen>
 </resources>

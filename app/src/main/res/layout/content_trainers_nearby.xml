@@ -14,7 +14,6 @@
     tools:showIn="@layout/activity_trainers_nearby">
 
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -30,6 +29,7 @@
             android:id="@+id/imageView7"
             android:scaleType="fitXY"
             android:layout_marginBottom="10dp" />
+<<<<<<< HEAD
         <Button
             android:id="@+id/join_trainer_club"
             style="?android:textAppearanceSmall"
@@ -38,14 +38,15 @@
             android:layout_marginTop="16dp"
             android:text="Join The Trainers Club"
             android:textStyle="bold" />
+=======
+>>>>>>> e8d9cf48fe5cc09157291f50640c4b27624830fd
 
         <ListView
             android:id="@+id/trainerListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" >
-        </ListView>
+            android:layout_alignParentTop="true"></ListView>
 
 
     </LinearLayout>

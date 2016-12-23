@@ -11,10 +11,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 import com.example.shiwantha.testone.R;
@@ -39,7 +43,7 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
 
 
         Intent trainerProfIntent = getIntent();
-        NutritionistObj nutritionistObj = trainerProfIntent.getExtras().getParcelable("nutritionistObj");
+        final NutritionistObj nutritionistObj = trainerProfIntent.getExtras().getParcelable("nutritionistObj");
 
         TextView nutritionistProfName = (TextView) findViewById(R.id.nutritionistProfName);
         TextView nutritionistProfPhone = (TextView) findViewById(R.id.nutritionistProfPhone);
@@ -53,6 +57,27 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
         nutritionistProfAddress.setText(nutritionistObj.getNo()+" "+nutritionistObj.getStreet()+" "+nutritionistObj.getCity());
 //        trainerProfHouseCallFac.setText(trainerObj.getFacilityOrHouseCalls());
 //        trainerProfLocation.setText(trainerObj.getLocation());
+
+      Button nutritionistProfContactBtn =(Button) findViewById(R.id.nutritionistProfContactBtn);
+        nutritionistProfContactBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent intent = new Intent(NutritionistProfileActivity.this, MessagesActivity.class);
+                intent.putExtra("nutritionistObj", nutritionistObj);
+                startActivity(intent);
+            }
+        });
+
+//        Button nutritionistProfScheduleBtn =(Button) findViewById(R.id.nutritionistProfScheduleBtn);
+//        nutritionistProfContactBtn.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(NutritionistProfileActivity.this, MessagesActivity.class);
+//                intent.putExtra("nutritionistObj", nutritionistObj);
+//                startActivity(intent);
+//            }
+//        });
+
 
 
     }
@@ -74,7 +99,7 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
             startActivity(new Intent(NutritionistProfileActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(NutritionistProfileActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(NutritionistProfileActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -82,7 +107,6 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(NutritionistProfileActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {

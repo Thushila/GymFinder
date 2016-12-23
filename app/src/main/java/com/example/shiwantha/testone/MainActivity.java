@@ -15,13 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,12 +51,16 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, SeekBar.OnSeekBarChangeListener {
 
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
 
+
     ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
+
+    private SeekBar seekBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +91,14 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        seekBar=(SeekBar)findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
+
+
+
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -134,7 +148,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(MainActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(MainActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -143,7 +157,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_payment) {
             startActivity(new Intent(MainActivity.this, TrainerProfileActivity.class));
-
 
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(MainActivity.this, RegisterActivity.class));
@@ -178,18 +191,85 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                GymObj selectedGymObj = allMarkersMap.get(marker);
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-                //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
-                Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
-                intent.putExtra("gymID", selectedGymObj.getGymId());
-                startActivity(intent);
-                return true;
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker args) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(final Marker marker) {
+
+                // Getting view from the layout file info_window_layout
+                View gym_detail_card = getLayoutInflater().inflate(R.layout.gym_detail_card, null);
+
+                final GymObj selectedGymObj = allMarkersMap.get(marker);
+
+                // Getting the position from the marker
+
+                //---     clickMarkerLatLng = args.getPosition();
+
+                TextView gymName = (TextView) gym_detail_card.findViewById(R.id.gymName);
+                TextView gymAddress = (TextView) gym_detail_card.findViewById(R.id.gymAddress);
+                TextView gymPhone = (TextView) gym_detail_card.findViewById(R.id.gymPhone);
+                TextView gymType = (TextView) gym_detail_card.findViewById(R.id.gymType);
+
+                gymName.setText(selectedGymObj.getName());
+                gymAddress.setText(selectedGymObj.getNo() + " " + selectedGymObj.getStreet() + " " + selectedGymObj.getCity());
+                gymPhone.setText(selectedGymObj.getPhone());
+                gymType.setText(selectedGymObj.getType());
+
+                Button gymButton = (Button) gym_detail_card.findViewById(R.id.gymButton);
+
+                gymButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Log.e("test4", "" + marker.getTitle());
+                        Toast.makeText(getApplicationContext(), "msg msg", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
+                        intent.putExtra("gymID", selectedGymObj.getGymId());
+                        startActivity(intent);
+                    }
+                });
+
+
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        GymObj selectedGymObj = allMarkersMap.get(marker);
+
+                        //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
+                        Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
+                        intent.putExtra("gymID", selectedGymObj.getGymId());
+                        startActivity(intent);
+                        return true;
+                    }
+                });
+
+                // Defines the contents of the InfoWindow
+
+                   return gym_detail_card;
             }
         });
+
+    }
+
+    @Override//get the position of the seekbar
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        Toast.makeText(getApplicationContext(),"seekbar progress: "+i, Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    @Override //seekbar started moving
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override //seekbar end moving
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
 
     }
 
@@ -202,7 +282,7 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://54.244.41.83:9000/api/gyms");
+                URL url = new URL("http://54.244.41.83:9000/api/gyms"); //http://54.244.41.83:9000/api/gyms
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -259,9 +339,10 @@ public class MainActivity extends AppCompatActivity
                     gymObj.setStreet(gymJSONObj.getJSONObject("address").getString("street"));
                     gymObj.setCity(gymJSONObj.getJSONObject("address").getString("city"));
                     gymObj.setPrice(gymJSONObj.getDouble("price"));
-                    gymObj.setHours(gymJSONObj.getString("hours"));
                     gymObj.setWebsite(gymJSONObj.getString("webSite"));
-
+                    gymObj.setWeekDayHours(gymJSONObj.getString("weekDayHours"));
+                    gymObj.setWeekDayHours(gymJSONObj.getString("saturdayHours"));
+                    gymObj.setSundayHours(gymJSONObj.getString("sundayHours"));
 
                     gymObjArray.add(gymObj);
 
@@ -278,3 +359,4 @@ public class MainActivity extends AppCompatActivity
 
 
 }
+

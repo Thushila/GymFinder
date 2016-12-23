@@ -182,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
             startActivity(new Intent(RegisterActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(RegisterActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(RegisterActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -190,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(RegisterActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {

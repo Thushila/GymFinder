@@ -62,8 +62,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         new GetNutritionists().execute("hello");
 
 
-
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -82,7 +80,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             startActivity(new Intent(NutritionistNearbyActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(NutritionistNearbyActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(NutritionistNearbyActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -90,7 +88,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(NutritionistNearbyActivity.this, TrainerProfileActivity.class));
 
 
         } else if (id == R.id.nav_settings) {
@@ -134,7 +131,11 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         protected String doInBackground(String... params) {
             try {
 
+
+               // URL url = new URL("http://192.168.8.103:9000/api/nutritionist");
+
                 URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
+
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -190,9 +191,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                     nutritionistObjArray.add(nutritionistObj);
 
 
-
-
-
                 }
 
 //                sendAdapterData(nutritionistObjArray);
@@ -202,18 +200,18 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
                 nutritionistListView.setAdapter(nutritionistCardAdaptor);
 
-        nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
-               // String Slecteditem= itemname[+position];
-                Toast.makeText(getApplicationContext(), "hollo "+position, Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
+//                nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view,
+//                                            int position, long id) {
+//                        // TODO Auto-generated method stub
+//                        // String Slecteditem= itemname[+position];
+//                        Toast.makeText(getApplicationContext(), "hollo " + position, Toast.LENGTH_SHORT).show();
+//
+//
+//                    }
+//                });
 
 
             } catch (JSONException e) {

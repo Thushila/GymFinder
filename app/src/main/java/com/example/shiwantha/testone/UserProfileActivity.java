@@ -48,7 +48,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
             startActivity(new Intent(UserProfileActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(UserProfileActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(UserProfileActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -56,7 +56,7 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
 
         } else if (id == R.id.nav_payment) {
-            startActivity(new Intent(UserProfileActivity.this, TrainerProfileActivity.class));
+
 
 
         } else if (id == R.id.nav_settings) {

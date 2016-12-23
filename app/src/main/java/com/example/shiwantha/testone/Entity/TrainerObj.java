@@ -19,6 +19,7 @@ public class TrainerObj implements Parcelable {
     private boolean insured;
     private int rating;
     private String gender;
+    private boolean availability;
 
     public TrainerObj(){}
 
@@ -33,6 +34,7 @@ public class TrainerObj implements Parcelable {
         insured = in.readByte() != 0;
         rating = in.readInt();
         gender = in.readString();
+
     }
 
     public static final Creator<TrainerObj> CREATOR = new Creator<TrainerObj>() {
@@ -125,6 +127,12 @@ public class TrainerObj implements Parcelable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+    public Boolean getAvailability() {
+        return availability;
+    }
+    public void setAvailability(Boolean availability) {
+        this.availability = availability;
     }
 
 

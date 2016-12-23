@@ -51,13 +51,15 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
         TextView trainerName = (TextView) rowView.findViewById(R.id.trainerName);
         ImageView trainerPic = (ImageView) rowView.findViewById(R.id.trainerPic);
         RatingBar trainerRatingBar = (RatingBar) rowView.findViewById(R.id.trainerRatingBar);
-//      ImageView trainerAvailability = (ImageView) rowView.findViewById(R.id.trainerAvailability);
+      ImageView trainerAvailability = (ImageView) rowView.findViewById(R.id.trainertAvailability);
         TextView location = (TextView) rowView.findViewById(R.id.location);
 
         trainerName.setText(trainerObjArray.get(position).getName());
         location.setText(trainerObjArray.get(position).getLocation());
         trainerRatingBar.setRating(trainerObjArray.get(position).getRating());
-
+        if (trainerObjArray.get(position).getAvailability()==true){
+            trainerAvailability.setVisibility(View.VISIBLE);
+        }
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
