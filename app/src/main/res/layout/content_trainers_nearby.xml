@@ -30,6 +30,15 @@
             android:id="@+id/imageView7"
             android:scaleType="fitXY"
             android:layout_marginBottom="10dp" />
+        <Button
+            android:id="@+id/join_trainer_club"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Join The Trainers Club"
+            android:textStyle="bold" />
+
         <ListView
             android:id="@+id/trainerListView"
             android:layout_width="match_parent"

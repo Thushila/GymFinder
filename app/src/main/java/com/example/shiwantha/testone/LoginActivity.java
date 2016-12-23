@@ -32,6 +32,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -337,7 +339,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 jsonParam.put("email", mEmail);
                 jsonParam.put("password", mPassword);
             } catch (JSONException e) {
-                Log.e("JSON Error", "error while converting to json");
+                Log.e("JSON Error", "error while converting to json" );
             }
 
         }
@@ -396,7 +398,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 finish();
                 Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
                 String token = response;
-                myIntent.putExtra("token", token);
+                //storing shared preference
+                TokenManager.setToken(LoginActivity.this, token);//saved as the key value pair
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
