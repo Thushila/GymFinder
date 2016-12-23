@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 
@@ -83,7 +84,9 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(TrainerProfileActivity.this, RegisterActivity.class));
+            //startActivity(new Intent(TrainerProfileActivity.this, RegisterActivity.class));
+            TokenManager.setToken(TrainerProfileActivity.this,"");
+            startActivity(new Intent(TrainerProfileActivity.this, LoginActivity.class));
 
         }
 

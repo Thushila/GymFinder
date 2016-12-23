@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
+
 public class JoinTrainerClubActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -59,8 +61,9 @@ public class JoinTrainerClubActivity extends AppCompatActivity implements Naviga
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(JoinTrainerClubActivity.this, RegisterActivity.class));
-
+            //startActivity(new Intent(JoinTrainerClubActivity.this, RegisterActivity.class));
+            TokenManager.setToken(JoinTrainerClubActivity.this,"");
+            startActivity(new Intent(JoinTrainerClubActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

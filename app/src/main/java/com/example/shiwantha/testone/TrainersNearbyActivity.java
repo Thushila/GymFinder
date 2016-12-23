@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 import com.example.shiwantha.testone.adaptor.TrainerCardAdaptor;
 
@@ -87,8 +88,9 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(TrainersNearbyActivity.this, RegisterActivity.class));
-
+            //startActivity(new Intent(TrainersNearbyActivity.this, RegisterActivity.class));
+            TokenManager.setToken(TrainersNearbyActivity.this,"");
+            startActivity(new Intent(TrainersNearbyActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

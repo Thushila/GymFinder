@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, TrainerProfileActivity.class));
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            //startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            TokenManager.setToken(MainActivity.this,"");
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
 
         }

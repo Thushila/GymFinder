@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
+
 public class UserProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -60,8 +62,9 @@ public class UserProfileActivity extends AppCompatActivity implements Navigation
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(UserProfileActivity.this, RegisterActivity.class));
-
+            //startActivity(new Intent(UserProfileActivity.this, RegisterActivity.class));
+            TokenManager.setToken(UserProfileActivity.this,"");
+            startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
