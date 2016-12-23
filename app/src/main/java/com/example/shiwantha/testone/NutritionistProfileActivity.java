@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
         TextView nutritionistProfName = (TextView) findViewById(R.id.nutritionistProfName);
         TextView nutritionistProfPhone = (TextView) findViewById(R.id.nutritionistProfPhone);
         TextView nutritionistProfAddress = (TextView) findViewById(R.id.nutritionistProfAddress);
+        Log.e("nutri","nutri::"+nutritionistObj.getName());
 
 //        TextView trainerProfHouseCallFac = (TextView) findViewById(R.id.trainerProfHouseCallFac);
 //        TextView trainerProfLocation = (TextView) findViewById(R.id.trainerProfLocation);

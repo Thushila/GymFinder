@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://192.168.8.103:9000/api/gyms");
+                URL url = new URL("http://192.168.8.101:9000/api/gyms");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
