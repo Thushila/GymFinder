@@ -56,7 +56,7 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
         TextView trainerDistance = (TextView) rowView.findViewById(R.id.trainerDistance);
 
         trainerName.setText(trainerObjArray.get(position).getName());
-        String distance=Float.toString(trainerObjArray.get(position).getDistance());
+        String distance=String.format(String.valueOf(trainerObjArray.get(position).getDistance()));
         trainerDistance.setText(distance);
 
         location.setText(trainerObjArray.get(position).getLocation());

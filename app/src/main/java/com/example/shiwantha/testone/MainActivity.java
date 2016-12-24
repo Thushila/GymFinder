@@ -87,12 +87,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //nipun checking app-wide login
-        if(TokenManager.getToken(MainActivity.this).length() == 0){
-            Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
-            MainActivity.this.startActivity(myIntent);
-        }else{
-            //if token exists, continue mainactivity
-        }
+//        if(TokenManager.getToken(MainActivity.this).length() == 0){
+//            Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
+//            MainActivity.this.startActivity(myIntent);
+//        }else{
+//            //if token exists, continue mainactivity
+//        }
         //*************
         setContentView(R.layout.activity_main);
 

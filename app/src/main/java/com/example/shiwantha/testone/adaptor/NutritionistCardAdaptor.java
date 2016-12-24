@@ -53,7 +53,8 @@ public class NutritionistCardAdaptor extends ArrayAdapter<NutritionistObj>{ //Nu
 
 
         nutritionistName.setText(nutritionistObjArray.get(position).getName());
-        String distance=Float.toString(nutritionistObjArray.get(position).getDistance());
+        String distance=String.format(String.valueOf(nutritionistObjArray.get(position).getDistance()));
+
         trainerDistance.setText(distance);
         nutritionistAddress.setText(nutritionistObjArray.get(position).getNo()+" "+nutritionistObjArray.get(position).getStreet()+" "+nutritionistObjArray.get(position).getCity());
         nutritionistRate.setRating((float)nutritionistObjArray.get(position).getRating());

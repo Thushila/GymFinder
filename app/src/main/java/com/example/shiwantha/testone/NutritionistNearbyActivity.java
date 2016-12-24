@@ -46,13 +46,14 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 
-public class NutritionistNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class NutritionistNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LocationListener{
 
     // private String nutritionists;
     ArrayList<NutritionistObj> nutritionistObjArray = new ArrayList<NutritionistObj>();
     private  double latitude;
     private  double longitude;
     private Location loc;
+    boolean gps_enabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,35 +72,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener ll = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.e("location", "" + location);
-                if (location != null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-
-                    loc=location;
-                }
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -110,7 +83,13 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 0.0f, this);
+        gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+
+
+        loc=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        Log.e("locationn", "" +   loc.getLatitude());
 
         new GetNutritionists().execute("hello");
 
@@ -151,6 +130,26 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 
     private class GetNutritionists extends AsyncTask<String, Void, String> {
