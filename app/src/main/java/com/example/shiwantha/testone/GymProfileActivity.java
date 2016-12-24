@@ -136,7 +136,8 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
             try {
 
 
-                URL url = new URL("http://192.168.8.103:9000/api/gyms/" + params[0]);
+               // URL url = new URL("http://54.244.41.83:9000/api/gyms/" + params[0]);
+                URL url = new URL("http://192.168.8.100:9000/api/gyms/" + params[0]);
 
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

@@ -1,5 +1,7 @@
 package com.example.shiwantha.testone;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
+    private ArrayList<Marker> markerArray = new ArrayList<Marker>();
 
 
     ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
@@ -170,12 +173,26 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
 
         if (StatusCheck.isNetworkAvailable(MainActivity.this)) {
-            new GetGyms().execute("hello");
+            new GetGyms().execute("Gym");
         } else {
-            Toast.makeText(MainActivity.this, "No Network Connection !!!", Toast.LENGTH_SHORT).show();
-            Intent myIntent = new Intent(
-                    Settings.ACTION_SETTINGS);
-            startActivity(myIntent);
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("For use this app, you should enable internet connection")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
 
 
@@ -185,10 +202,24 @@ public class MainActivity extends AppCompatActivity
 
     private void addMapMarkers() {
 
+        if (markerArray.size() > 0) {
+
+            for (Marker mker : markerArray) {
+                mker.remove();
+            }
+
+            mMap.clear();
+            markerArray.clear();
+            allMarkersMap.clear();
+
+        }
+
 
         for (GymObj gymObj : gymObjArray) {
 
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(gymObj.getLatitude(), gymObj.getLongitude())).title("Capital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(gymObj.getLatitude(), gymObj.getLongitude())).title("Capital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            Marker marker = mMap.addMarker(markerOptions);
+            markerArray.add(marker);
             allMarkersMap.put(marker, gymObj);
 
         }
@@ -232,14 +263,11 @@ public class MainActivity extends AppCompatActivity
                         intent.putExtra("gymID", selectedGymObj.getGymId());
                         startActivity(intent);
 
-
                     }
                 });
 
-
                 return gym_detail_card;
             }
-
 
         });
 
@@ -247,7 +275,50 @@ public class MainActivity extends AppCompatActivity
 
     @Override//get the position of the seekbar
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        Toast.makeText(getApplicationContext(), "seekbar progress: " + i, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "seekbar progress: " + i, Toast.LENGTH_SHORT).show();
+
+        String gymtype = "Gym";
+        switch (i) {
+            case 0:
+                gymtype = "Gym";
+                break;
+            case 1:
+                gymtype = "Studios";
+                break;
+            case 2:
+                gymtype = "MMA";
+                break;
+            case 3:
+                gymtype = "Crossfit";
+                break;
+            case 4:
+                gymtype = "Competition";
+                break;
+        }
+        ;
+
+        if (StatusCheck.isNetworkAvailable(MainActivity.this)) {
+            new GetGyms().execute(gymtype);
+        } else {
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("For use this app, you should enable internet connection")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
 
 
     }
@@ -288,7 +359,10 @@ public class MainActivity extends AppCompatActivity
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://54.244.41.83:9000/api/gyms"); //http://54.244.41.83:9000/api/gyms
+                //  URL url = new URL("http://54.244.41.83:9000/api/gyms");
+                //   URL url = new URL("http://192.168.8.100:9000/api/gyms");
+                //   URL url = new URL("http://54.244.41.83:9000/api/gyms/nearestGymsByType/"+params[0]);
+                URL url = new URL("http://192.168.8.100:9000/api/gyms/nearestGymsByType/" + params[0]);
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
