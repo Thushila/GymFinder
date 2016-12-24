@@ -4,11 +4,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,6 +36,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
@@ -70,9 +82,18 @@ public class MainActivity extends AppCompatActivity
     private SeekBar seekBar;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //nipun checking app-wide login
+        if(TokenManager.getToken(MainActivity.this).length() == 0){
+            Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
+            MainActivity.this.startActivity(myIntent);
+        }else{
+            //if token exists, continue mainactivity
+        }
+        //*************
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -156,7 +177,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, TrainerProfileActivity.class));
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            //startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            TokenManager.setToken(MainActivity.this,"");
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
 
         }
@@ -197,6 +220,7 @@ public class MainActivity extends AppCompatActivity
 
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(7.8, 80.77), 11.0f));
+
 
     }
 
@@ -363,6 +387,7 @@ public class MainActivity extends AppCompatActivity
                 //   URL url = new URL("http://192.168.8.100:9000/api/gyms");
                 //   URL url = new URL("http://54.244.41.83:9000/api/gyms/nearestGymsByType/"+params[0]);
                 URL url = new URL("http://192.168.8.100:9000/api/gyms/nearestGymsByType/" + params[0]);
+
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 

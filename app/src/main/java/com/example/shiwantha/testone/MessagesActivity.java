@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
+
 public class MessagesActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -59,7 +61,9 @@ public class MessagesActivity extends AppCompatActivity implements NavigationVie
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(MessagesActivity.this, RegisterActivity.class));
+            //startActivity(new Intent(MessagesActivity.this, RegisterActivity.class));
+            TokenManager.setToken(MessagesActivity.this,"");
+            startActivity(new Intent(MessagesActivity.this, LoginActivity.class));
 
         }
 

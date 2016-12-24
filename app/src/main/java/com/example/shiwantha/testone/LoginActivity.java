@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +30,19 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    private final String url = "http://54.244.41.83:9000/auth/local";
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -195,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(email, password, url);
             mAuthTask.execute((Void) null);
         }
     }
@@ -207,7 +220,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 2;
     }
 
     /**
@@ -308,33 +321,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private final String mUrl;
+        private JSONObject jsonParam;
+        private  String response;
+        private int status;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String email, String password, String url) {
             mEmail = email;
             mPassword = password;
+            mUrl = url;
+            jsonParam = new JSONObject();
+        }
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+            try {
+                jsonParam.put("email", mEmail);
+                jsonParam.put("password", mPassword);
+            } catch (JSONException e) {
+                Log.e("JSON Error", "error while converting to json" );
+            }
+
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            try{
+                URL url = new URL(mUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
+                OutputStreamWriter outputStream = new   OutputStreamWriter(connection.getOutputStream());
+                outputStream.write(jsonParam.toString());
+                Log.e("JSON",jsonParam.toString());
+                outputStream.flush();
+                outputStream.close();
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                int status = connection.getResponseCode();
+                //InputStream error = connection.getErrorStream();//erase this
+
+                if(status==200){
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder stringBuilder = new StringBuilder();
+                    String line = null;
+                    while((line = reader.readLine()) != null){
+                        stringBuilder.append(line + "\n");
+                    }
+                    response = stringBuilder.toString();
+                    reader.close();
+                    connection.disconnect();
+                    Log.e("response : ", response);
+                    return true;
+                }else if(status == 401){
+                    return false;
+                }else{
+                    Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_LONG);
+                    return false;
+                }
+            }catch(Exception e){
+                Log.e("Error","Error while calling POST on login" + e);
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
             // TODO: register the new account here.
-            return true;
+
         }
 
         @Override
@@ -344,7 +396,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
+                String token = response;
+                //storing shared preference
+                TokenManager.setToken(LoginActivity.this, token);//saved as the key value pair
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

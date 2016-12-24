@@ -20,6 +20,9 @@ public class TrainerObj implements Parcelable {
     private int rating;
     private String gender;
     private boolean availability;
+    private double latitude;
+    private double longitude;
+    private float distance;
 
     public TrainerObj(){}
 
@@ -34,6 +37,9 @@ public class TrainerObj implements Parcelable {
         insured = in.readByte() != 0;
         rating = in.readInt();
         gender = in.readString();
+        latitude=in.readDouble();
+        longitude=in.readDouble();
+
 
     }
 
@@ -131,9 +137,35 @@ public class TrainerObj implements Parcelable {
     public Boolean getAvailability() {
         return availability;
     }
+
     public void setAvailability(Boolean availability) {
         this.availability = availability;
     }
+
+    public double getLatitude() {
+        return latitude;
+    }
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getDistance() {
+        Log.e("distance in km:::", "" + distance);
+        return distance;
+    }
+    public void setDistance(float distance) {
+        Log.e("distance in km:::", "" + distance);
+        this.distance = distance;
+    }
+
+
 
 
     @Override
@@ -153,5 +185,8 @@ public class TrainerObj implements Parcelable {
         parcel.writeByte((byte) (insured ? 1 : 0));
         parcel.writeInt(rating);
         parcel.writeString(gender);
+        parcel.writeDouble(latitude);
+        parcel.writeDouble(longitude);
+
     }
 }

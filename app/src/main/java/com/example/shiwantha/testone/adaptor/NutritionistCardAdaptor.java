@@ -47,11 +47,14 @@ public class NutritionistCardAdaptor extends ArrayAdapter<NutritionistObj>{ //Nu
         RatingBar nutritionistRate =(RatingBar) rowView.findViewById(R.id.nutritionistRate);
         ImageView nutritionistAvailability = (ImageView) rowView.findViewById(R.id.nutritionistAvailability);
         TextView nutritionistAddress = (TextView) rowView.findViewById(R.id.nutritionistAddress);
+        TextView trainerDistance = (TextView) rowView.findViewById(R.id.nutritionistDistance);
 
 
 
 
         nutritionistName.setText(nutritionistObjArray.get(position).getName());
+        String distance=Float.toString(nutritionistObjArray.get(position).getDistance());
+        trainerDistance.setText(distance);
         nutritionistAddress.setText(nutritionistObjArray.get(position).getNo()+" "+nutritionistObjArray.get(position).getStreet()+" "+nutritionistObjArray.get(position).getCity());
         nutritionistRate.setRating((float)nutritionistObjArray.get(position).getRating());
         if (nutritionistObjArray.get(position).getAvailability()==true){

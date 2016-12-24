@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 
@@ -39,12 +40,14 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
         Intent trainerProfIntent = getIntent();
         TrainerObj trainerObj = trainerProfIntent.getExtras().getParcelable("trainerObj");
 
+        TextView trainerProfName = (TextView) findViewById(R.id.trainer_name);
         TextView trainerProfService = (TextView) findViewById(R.id.trainerProfService);
         TextView trainerProfCertification = (TextView) findViewById(R.id.trainerProfCertification);
         TextView trainerProfInsured = (TextView) findViewById(R.id.trainerProfInsured);
         TextView trainerProfHouseCallFac = (TextView) findViewById(R.id.trainerProfHouseCallFac);
         TextView trainerProfLocation = (TextView) findViewById(R.id.trainerProfLocation);
 
+        trainerProfName.setText(trainerObj.getName());
         trainerProfService.setText(trainerObj.getServices());
         trainerProfCertification.setText(trainerObj.getCertification());
         trainerProfInsured.setText(String.valueOf(trainerObj.getInsured()));
@@ -83,7 +86,9 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(TrainerProfileActivity.this, RegisterActivity.class));
+            //startActivity(new Intent(TrainerProfileActivity.this, RegisterActivity.class));
+            TokenManager.setToken(TrainerProfileActivity.this,"");
+            startActivity(new Intent(TrainerProfileActivity.this, LoginActivity.class));
 
         }
 
