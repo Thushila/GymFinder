@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 import com.example.shiwantha.testone.adaptor.TrainerCardAdaptor;
 
@@ -44,9 +45,13 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
     Activity activity;
+
     private double latitude;
     private double longitude;
     private Location loc;
+
+    Button mJoinTrainersClub;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         setContentView(R.layout.activity_trainers_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mJoinTrainersClub = (Button) findViewById(R.id.join_trainer_club);
         activity = TrainersNearbyActivity.this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -62,19 +68,18 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Button button=(Button)findViewById(R.id.joinTrainersClub);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent=new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class);
-                startActivity(intent);
-            }
-        });
+       
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //adding join trainers club button listener
+        mJoinTrainersClub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class));
+            }
+        });
 
         //add getTrainer method and execute
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -152,8 +157,9 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(TrainersNearbyActivity.this, RegisterActivity.class));
-
+            //startActivity(new Intent(TrainersNearbyActivity.this, RegisterActivity.class));
+            TokenManager.setToken(TrainersNearbyActivity.this,"");
+            startActivity(new Intent(TrainersNearbyActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

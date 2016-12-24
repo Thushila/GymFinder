@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 
 import org.json.JSONArray;
@@ -91,8 +92,9 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(GymProfileActivity.this, RegisterActivity.class));
-
+            //startActivity(new Intent(GymProfileActivity.this, RegisterActivity.class));
+            TokenManager.setToken(GymProfileActivity.this,"");
+            startActivity(new Intent(GymProfileActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

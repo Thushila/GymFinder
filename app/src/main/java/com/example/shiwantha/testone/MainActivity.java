@@ -29,6 +29,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
@@ -73,6 +74,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //nipun checking app-wide login
+        if(TokenManager.getToken(MainActivity.this).length() == 0){
+            Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
+            MainActivity.this.startActivity(myIntent);
+        }else{
+            //if token exists, continue mainactivity
+        }
+        //*************
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -158,7 +167,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, TrainerProfileActivity.class));
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            //startActivity(new Intent(MainActivity.this, RegisterActivity.class));
+            TokenManager.setToken(MainActivity.this,"");
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
 
         }

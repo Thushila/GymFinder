@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.Entity.TrainerObj;
@@ -111,8 +112,9 @@ public class NutritionistProfileActivity extends AppCompatActivity implements Na
 
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(NutritionistProfileActivity.this, RegisterActivity.class));
-
+            //startActivity(new Intent(NutritionistProfileActivity.this, RegisterActivity.class));
+            TokenManager.setToken(NutritionistProfileActivity.this,"");
+            startActivity(new Intent(NutritionistProfileActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
