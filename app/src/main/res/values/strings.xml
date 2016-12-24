@@ -30,6 +30,8 @@
     <string name="title_activity_trainers_nearby">Trainers Nearby</string>
     <string name="title_activity_nutritionist_nearby">Nutritionist Nearby</string>
 
-    <string name="title_activity_nutritionists_profile">NutritionistsProfileActivity</string>
+    <string name="title_activity_nutritionist_profile">Nutritionist Profile</string>
+    <string name="title_activity_messages">Messages</string>
+    <string name="title_activity_test">Test</string>
 
 </resources>

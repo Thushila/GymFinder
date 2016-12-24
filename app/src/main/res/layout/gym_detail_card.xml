@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
+    <RatingBar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/gymButton"
-        android:layout_weight="1"
-        />
+        android:numStars="1"
+        android:id="@+id/ratingBar" />
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/gymText"
-        android:layout_weight="1" />
+        android:id="@+id/gymName"
+         />
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gymAddress"
+         />
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gymPhone"
+        />
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gymType"
+         />
+    <Button
+        android:text="More Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gymButton"
+        />
+
 </LinearLayout>

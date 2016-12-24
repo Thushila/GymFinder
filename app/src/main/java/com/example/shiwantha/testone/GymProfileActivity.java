@@ -79,7 +79,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
             startActivity(new Intent(GymProfileActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(GymProfileActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(GymProfileActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {

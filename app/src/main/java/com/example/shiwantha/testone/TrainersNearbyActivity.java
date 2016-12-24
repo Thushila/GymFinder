@@ -1,10 +1,17 @@
 package com.example.shiwantha.testone;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,6 +44,9 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
     Activity activity;
+    private double latitude;
+    private double longitude;
+    private Location loc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +62,64 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        Button button=(Button)findViewById(R.id.joinTrainersClub);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent=new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class);
+                startActivity(intent);
+            }
+        });
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //add getTrainer method and execute
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        LocationListener ll = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.e("location", "" + location);
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+
+                    loc=location;
+
+
+
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
         new GetTrainers().execute("hello");
 
     }
@@ -75,7 +140,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             startActivity(new Intent(TrainersNearbyActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(TrainersNearbyActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(TrainersNearbyActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
@@ -132,7 +197,8 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             //54.244.41.83
             try {
 
-                URL url = new URL("http://192.168.8.101:9000/api/trainers");
+                URL url = new URL("http://10.0.3.2:9000/api/trainers");
+
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -187,6 +253,21 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
                     trainerObj.setRating(trainerJsonObj.getInt("rating"));
                     trainerObj.setGender(trainerJsonObj.getString("gender"));
                     trainerObj.setAvailability(trainerJsonObj.getBoolean("availability"));
+                    trainerObj.setLatitude(trainerJsonObj.getDouble("latitude"));
+                    trainerObj.setLongitude(trainerJsonObj.getDouble("longitude"));
+
+
+                    Location userLocation=loc;
+                    Location trainerLocation= new Location("trainer");
+                    trainerLocation.setLatitude(trainerObj.getLatitude());
+                    trainerLocation.setLongitude(trainerObj.getLongitude());
+
+                    trainerObj.setDistance(userLocation.distanceTo(trainerLocation)/1000);
+
+
+
+
+
 
                     trainerObjArray.add(trainerObj);
 

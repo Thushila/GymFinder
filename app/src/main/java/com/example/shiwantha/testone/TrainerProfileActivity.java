@@ -39,12 +39,14 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
         Intent trainerProfIntent = getIntent();
         TrainerObj trainerObj = trainerProfIntent.getExtras().getParcelable("trainerObj");
 
+        TextView trainerProfName = (TextView) findViewById(R.id.trainer_name);
         TextView trainerProfService = (TextView) findViewById(R.id.trainerProfService);
         TextView trainerProfCertification = (TextView) findViewById(R.id.trainerProfCertification);
         TextView trainerProfInsured = (TextView) findViewById(R.id.trainerProfInsured);
         TextView trainerProfHouseCallFac = (TextView) findViewById(R.id.trainerProfHouseCallFac);
         TextView trainerProfLocation = (TextView) findViewById(R.id.trainerProfLocation);
 
+        trainerProfName.setText(trainerObj.getName());
         trainerProfService.setText(trainerObj.getServices());
         trainerProfCertification.setText(trainerObj.getCertification());
         trainerProfInsured.setText(String.valueOf(trainerObj.getInsured()));
@@ -72,7 +74,7 @@ public class TrainerProfileActivity extends AppCompatActivity implements Navigat
             startActivity(new Intent(TrainerProfileActivity.this, NutritionistNearbyActivity.class));
 
         } else if (id == R.id.nav_messages) {
-            startActivity(new Intent(TrainerProfileActivity.this, JoinTrainerClubActivity.class));
+            startActivity(new Intent(TrainerProfileActivity.this, MessagesActivity.class));
 
 
         } else if (id == R.id.nav_events) {
