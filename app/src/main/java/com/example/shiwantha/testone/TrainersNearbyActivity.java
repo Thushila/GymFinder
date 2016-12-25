@@ -42,7 +42,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,LocationListener{
+
+public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
     Activity activity;
@@ -55,6 +56,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -80,17 +82,16 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             }
         });
 
-
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
-            loc=location;
+            loc = location;
         } else {
             if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                loc=location;
+                loc = location;
             }
 
         }
@@ -102,19 +103,23 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
     public void onLocationChanged(Location location) {
         if (location != null) {
             Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
-            loc=location;
+            loc = location;
             if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 
                 mLocationManager.removeUpdates(this);
             }
-
         }
     }
 
     // Required functions
-    public void onProviderDisabled(String arg0) {}
-    public void onProviderEnabled(String arg0) {}
-    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {}
+    public void onProviderDisabled(String arg0) {
+    }
+
+    public void onProviderEnabled(String arg0) {
+    }
+
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

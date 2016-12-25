@@ -49,6 +49,7 @@ import java.util.StringTokenizer;
 
 public class NutritionistNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
+
     // private String nutritionists;
     ArrayList<NutritionistObj> nutritionistObjArray = new ArrayList<NutritionistObj>();
 
@@ -57,6 +58,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutritionist_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,17 +73,17 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
         if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
-            loc=location;
+            loc = location;
         } else {
             if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                loc=location;
+                loc = location;
             }
 
         }
@@ -91,22 +93,27 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
     }
 
+
     public void onLocationChanged(Location location) {
         if (location != null) {
             Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
-            loc=location;
+            loc = location;
             if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 
                 mLocationManager.removeUpdates(this);
             }
-
         }
     }
 
     // Required functions
-    public void onProviderDisabled(String arg0) {}
-    public void onProviderEnabled(String arg0) {}
-    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {}
+    public void onProviderDisabled(String arg0) {
+    }
+
+    public void onProviderEnabled(String arg0) {
+    }
+
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -136,7 +143,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
         } else if (id == R.id.nav_settings) {
             //startActivity(new Intent(NutritionistNearbyActivity.this, RegisterActivity.class));
-            TokenManager.setToken(NutritionistNearbyActivity.this,"");
+            TokenManager.setToken(NutritionistNearbyActivity.this, "");
             startActivity(new Intent(NutritionistNearbyActivity.this, LoginActivity.class));
         }
 
@@ -154,7 +161,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             try {
 
 
-               URL url = new URL("http://192.168.8.100:9000/api/nutritionist");
+                URL url = new URL("http://192.168.8.100:9000/api/nutritionist");
 
                 //URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
 
@@ -213,12 +220,12 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                     nutritionistObj.setLongitude(nutrtionistJSONObj.getDouble("longitude"));
 
 
-                    Location userLocation=loc;
-                    Location nutritionistLocation= new Location("nutritionist");
+                    Location userLocation = loc;
+                    Location nutritionistLocation = new Location("nutritionist");
                     nutritionistLocation.setLatitude(nutritionistObj.getLatitude());
                     nutritionistLocation.setLongitude(nutritionistObj.getLongitude());
 
-                    nutritionistObj.setDistance(userLocation.distanceTo(nutritionistLocation)/1000);
+                    nutritionistObj.setDistance(userLocation.distanceTo(nutritionistLocation) / 1000);
 
                     nutritionistObjArray.add(nutritionistObj);
 
