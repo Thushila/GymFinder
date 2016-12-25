@@ -59,6 +59,15 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
+            <CheckBox
+                android:button="@android:drawable/btn_star"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/favorite"
+
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
 
