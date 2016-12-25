@@ -199,6 +199,9 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
 
             setGymProfproperties();
         }

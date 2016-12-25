@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity
     private SeekBar seekBar;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
             //startActivity(new Intent(MainActivity.this, RegisterActivity.class));
-            TokenManager.setToken(MainActivity.this,"");
+            TokenManager.setToken(MainActivity.this, "");
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
 
@@ -198,7 +196,9 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
 
         if (StatusCheck.isNetworkAvailable(MainActivity.this)) {
+
             new GetGyms().execute("Gym");
+
         } else {
 
             new AlertDialog.Builder(MainActivity.this)
@@ -256,8 +256,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public View getInfoWindow(Marker args) {
 
-//                View view = getInfoContents(args);
-//                view.setClickable(false);
                 return null;
             }
 
@@ -301,7 +299,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override//get the position of the seekbar
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        //Toast.makeText(getApplicationContext(), "seekbar progress: " + i, Toast.LENGTH_SHORT).show();
 
         String gymtype = "Gym";
         switch (i) {
@@ -456,6 +453,9 @@ public class MainActivity extends AppCompatActivity
                 }
 
             } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            catch (NullPointerException e) {
                 e.printStackTrace();
             }
 

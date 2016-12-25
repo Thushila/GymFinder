@@ -5,11 +5,17 @@
     android:layout_height="match_parent"
     >
 
-    <RatingBar
-        android:layout_width="match_parent"
+
+
+    <CheckBox
+        android:button="@android:drawable/btn_star"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:numStars="1"
-        android:id="@+id/ratingBar" />
+        android:id="@+id/favorite"
+
+        android:background="@android:color/transparent"
+        android:layout_gravity="center"/>
 
     <TextView
         android:text="TextView"

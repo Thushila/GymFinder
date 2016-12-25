@@ -1,7 +1,9 @@
 package com.example.shiwantha.testone;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -9,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -29,6 +32,7 @@ import android.widget.Toast;
 import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.example.shiwantha.testone.util.StatusCheck;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,6 +77,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -85,11 +90,9 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
                 loc = location;
             }
-
         }
 
-
-        new GetNutritionists().execute("hello");
+            new GetNutritionists().execute("hello");
 
     }
 
@@ -239,6 +242,9 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                 nutritionistListView.setAdapter(nutritionistCardAdaptor);
 
             } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            catch (NullPointerException e) {
                 e.printStackTrace();
             }
 

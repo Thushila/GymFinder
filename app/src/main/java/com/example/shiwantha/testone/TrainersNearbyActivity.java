@@ -246,6 +246,9 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
