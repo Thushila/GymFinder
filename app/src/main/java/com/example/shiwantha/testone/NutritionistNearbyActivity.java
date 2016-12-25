@@ -80,26 +80,75 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (!(StatusCheck.isNetworkAvailable(NutritionistNearbyActivity.this))) {
 
-        if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
-            loc = location;
-        } else {
-            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            new AlertDialog.Builder(NutritionistNearbyActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("For use this app, you should enable internet connection")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_WIFI_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                loc = location;
-            }
         }
 
+        else if(!(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))){
+
+            new AlertDialog.Builder(NutritionistNearbyActivity.this)
+                    .setTitle("No GPS Service")
+                    .setMessage("For use this app, you should enable GPS")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
+        else {
+
+            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 1 * 60 * 1000) {
+                loc = location;
+            } else {
+                if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    loc = location;
+                }
+
+            }
+
             new GetNutritionists().execute("hello");
+
+        }
 
     }
 
 
     public void onLocationChanged(Location location) {
         if (location != null) {
-            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
+
             loc = location;
             if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 

@@ -2,7 +2,9 @@ package com.example.shiwantha.testone;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 import com.example.shiwantha.testone.adaptor.TrainerCardAdaptor;
+import com.example.shiwantha.testone.util.StatusCheck;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +56,6 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
     private Location loc;
 
     Button mJoinTrainersClub;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,21 +87,66 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (!(StatusCheck.isNetworkAvailable(TrainersNearbyActivity.this))) {
 
-        if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
-            loc = location;
+            new AlertDialog.Builder(TrainersNearbyActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("For use this app, you should enable internet connection")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_WIFI_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+        } else if (!(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))) {
+
+            new AlertDialog.Builder(TrainersNearbyActivity.this)
+                    .setTitle("No GPS Service")
+                    .setMessage("For use this app, you should enable GPS")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         } else {
-            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+            Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 1 * 60 * 1000) {
                 loc = location;
+            } else {
+                if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    loc = location;
+                }
+
             }
 
+            new GetTrainers().execute("hello");
+
         }
-
-        new GetTrainers().execute("hello");
-
     }
+
 
     public void onLocationChanged(Location location) {
         if (location != null) {
