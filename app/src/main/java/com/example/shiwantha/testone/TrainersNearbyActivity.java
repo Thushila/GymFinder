@@ -1,10 +1,17 @@
 package com.example.shiwantha.testone;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,15 +40,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
     Activity activity;
+
+    LocationManager mLocationManager;
+    private Location loc;
+
     Button mJoinTrainersClub;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trainers_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,6 +70,7 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -66,9 +82,43 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             }
         });
 
-        //add getTrainer method and execute
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
+            loc = location;
+        } else {
+            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                loc = location;
+            }
+
+        }
+
         new GetTrainers().execute("hello");
 
+    }
+
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
+            loc = location;
+            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                mLocationManager.removeUpdates(this);
+            }
+        }
+    }
+
+    // Required functions
+    public void onProviderDisabled(String arg0) {
+    }
+
+    public void onProviderEnabled(String arg0) {
+    }
+
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -97,10 +147,10 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         } else if (id == R.id.nav_payment) {
 
 
-
         } else if (id == R.id.nav_settings) {
+
             //startActivity(new Intent(TrainersNearbyActivity.this, RegisterActivity.class));
-            TokenManager.setToken(TrainersNearbyActivity.this,"");
+            TokenManager.setToken(TrainersNearbyActivity.this, "");
             startActivity(new Intent(TrainersNearbyActivity.this, LoginActivity.class));
         }
 
@@ -109,48 +159,20 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
         return true;
     }
 
-    public void sendAdapterData(ArrayList<TrainerObj> trinerObjArraya) {
-
-        TrainerCardAdaptor trainerCardAdaptor = new TrainerCardAdaptor(this, trinerObjArraya);
-
-        ListView trainerListView = (ListView) findViewById(R.id.trainerListView);
-        trainerListView.setAdapter(trainerCardAdaptor);
-
-        trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "hollo "+i, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> trainerCardAdaptor, View view, int i, long l) {
-//                Toast.makeText(getApplicationContext(), "hollo "+i, Toast.LENGTH_SHORT).show();
-//                if (true) {
-//                    Intent myIntent = new Intent(view.getContext(), TrainerProfileActivity.class);
-//                    startActivityForResult(myIntent, 0);
-//                }
-//            }
-//        });
-    }
 
     private class GetTrainers extends AsyncTask<String, Void, String> {
         StringBuilder responseOutput;
 
         @Override
         protected String doInBackground(String... strings) {
-            //54.244.41.83
+
             try {
 
-               // URL url = new URL("http://192.168.8.103:9000/api/trainers");
+                URL url = new URL("http://192.168.8.100:9000/api/trainers");
 
-                URL url = new URL("http://54.244.41.83:9000/api/trainers");
+                // URL url = new URL("http://54.244.41.83:9000/api/trainers");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
 
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("ACCEPT-LANGUAGE", "en-US,en;0.5");
@@ -179,8 +201,6 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
         @Override
         protected void onPostExecute(String trainerStringArray) {
-            Log.e("test4","qq"+trainerStringArray);
-
             try {
 
                 JSONArray trainerJsonArray = new JSONArray(trainerStringArray);
@@ -202,25 +222,26 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
                     trainerObj.setRating(trainerJsonObj.getInt("rating"));
                     trainerObj.setGender(trainerJsonObj.getString("gender"));
                     trainerObj.setAvailability(trainerJsonObj.getBoolean("availability"));
+                    trainerObj.setLatitude(trainerJsonObj.getDouble("latitude"));
+                    trainerObj.setLongitude(trainerJsonObj.getDouble("longitude"));
+
+
+                    Location userLocation = loc;
+                    Location trainerLocation = new Location("trainer");
+                    trainerLocation.setLatitude(trainerObj.getLatitude());
+                    trainerLocation.setLongitude(trainerObj.getLongitude());
+
+                    trainerObj.setDistance(userLocation.distanceTo(trainerLocation) / 1000);
 
                     trainerObjArray.add(trainerObj);
 
-
                 }
-
-//                sendAdapterData(trainerObjArray);
 
                 TrainerCardAdaptor trainerCardAdaptor = new TrainerCardAdaptor(activity, trainerObjArray);
 
                 ListView trainerListView = (ListView) findViewById(R.id.trainerListView);
                 trainerListView.setAdapter(trainerCardAdaptor);
 
-//                trainerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                        Toast.makeText(getApplicationContext(), "hollo "+i, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
 
             } catch (JSONException e) {
                 e.printStackTrace();

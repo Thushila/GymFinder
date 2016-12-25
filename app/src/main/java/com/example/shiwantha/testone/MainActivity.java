@@ -1,10 +1,25 @@
 package com.example.shiwantha.testone;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,6 +40,7 @@ import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.example.shiwantha.testone.util.StatusCheck;
 import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +50,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.leo.simplearcloader.ArcConfiguration;
+import com.leo.simplearcloader.SimpleArcDialog;
+import com.leo.simplearcloader.SimpleArcLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +74,7 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleMap mMap;
     private Map<Marker, GymObj> allMarkersMap = new HashMap<Marker, GymObj>();
+    private ArrayList<Marker> markerArray = new ArrayList<Marker>();
 
 
     ArrayList<GymObj> gymObjArray = new ArrayList<GymObj>();
@@ -62,16 +82,18 @@ public class MainActivity extends AppCompatActivity
     private SeekBar seekBar;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //nipun checking app-wide login
-        if(TokenManager.getToken(MainActivity.this).length() == 0){
-            Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
-            MainActivity.this.startActivity(myIntent);
-        }else{
-            //if token exists, continue mainactivity
-        }
+//        if(TokenManager.getToken(MainActivity.this).length() == 0){
+//            Intent myIntent = new Intent(MainActivity.this,LoginActivity.class);
+//            MainActivity.this.startActivity(myIntent);
+//        }else{
+//            //if token exists, continue mainactivity
+//        }
         //*************
         setContentView(R.layout.activity_main);
 
@@ -91,10 +113,8 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        seekBar=(SeekBar)findViewById(R.id.seekBar);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(this);
-
-
 
 
     }
@@ -177,18 +197,55 @@ public class MainActivity extends AppCompatActivity
 
         mMap = googleMap;
 
-        new GetGyms().execute("hello");
+        if (StatusCheck.isNetworkAvailable(MainActivity.this)) {
+            new GetGyms().execute("Gym");
+        } else {
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("For use this app, you should enable internet connection")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(7.8, 80.77), 11.0f));
+
 
     }
 
     private void addMapMarkers() {
 
+        if (markerArray.size() > 0) {
+
+            for (Marker mker : markerArray) {
+                mker.remove();
+            }
+
+            mMap.clear();
+            markerArray.clear();
+            allMarkersMap.clear();
+
+        }
+
 
         for (GymObj gymObj : gymObjArray) {
 
-            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(gymObj.getLatitude(), gymObj.getLongitude())).title("Capital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(gymObj.getLatitude(), gymObj.getLongitude())).title("Capital").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            Marker marker = mMap.addMarker(markerOptions);
+            markerArray.add(marker);
             allMarkersMap.put(marker, gymObj);
 
         }
@@ -198,8 +255,12 @@ public class MainActivity extends AppCompatActivity
             // Use default InfoWindow frame
             @Override
             public View getInfoWindow(Marker args) {
+
+//                View view = getInfoContents(args);
+//                view.setClickable(false);
                 return null;
             }
+
 
             @Override
             public View getInfoContents(final Marker marker) {
@@ -209,9 +270,6 @@ public class MainActivity extends AppCompatActivity
 
                 final GymObj selectedGymObj = allMarkersMap.get(marker);
 
-                // Getting the position from the marker
-
-                //---     clickMarkerLatLng = args.getPosition();
 
                 TextView gymName = (TextView) gym_detail_card.findViewById(R.id.gymName);
                 TextView gymAddress = (TextView) gym_detail_card.findViewById(R.id.gymAddress);
@@ -223,43 +281,70 @@ public class MainActivity extends AppCompatActivity
                 gymPhone.setText(selectedGymObj.getPhone());
                 gymType.setText(selectedGymObj.getType());
 
-                Button gymButton = (Button) gym_detail_card.findViewById(R.id.gymButton);
 
-                gymButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Log.e("test4", "" + marker.getTitle());
-                        Toast.makeText(getApplicationContext(), "msg msg", Toast.LENGTH_SHORT).show();
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    public void onInfoWindowClick(Marker marker) {
+
                         Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
                         intent.putExtra("gymID", selectedGymObj.getGymId());
                         startActivity(intent);
+
                     }
                 });
 
-
-                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        GymObj selectedGymObj = allMarkersMap.get(marker);
-
-                        //Toast.makeText(MainActivity.this, "balla", Toast.LENGTH_SHORT).show();// display toast
-                        Intent intent = new Intent(MainActivity.this, GymProfileActivity.class);
-                        intent.putExtra("gymID", selectedGymObj.getGymId());
-                        startActivity(intent);
-                        return true;
-                    }
-                });
-
-                // Defines the contents of the InfoWindow
-
-                   return gym_detail_card;
+                return gym_detail_card;
             }
+
         });
 
     }
 
     @Override//get the position of the seekbar
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        Toast.makeText(getApplicationContext(),"seekbar progress: "+i, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "seekbar progress: " + i, Toast.LENGTH_SHORT).show();
+
+        String gymtype = "Gym";
+        switch (i) {
+            case 0:
+                gymtype = "Gym";
+                break;
+            case 1:
+                gymtype = "Studios";
+                break;
+            case 2:
+                gymtype = "MMA";
+                break;
+            case 3:
+                gymtype = "Crossfit";
+                break;
+            case 4:
+                gymtype = "Competition";
+                break;
+        }
+        ;
+
+        if (StatusCheck.isNetworkAvailable(MainActivity.this)) {
+            new GetGyms().execute(gymtype);
+        } else {
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("For use this app, you should enable internet connection")
+                    .setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent myIntent = new Intent(
+                                    Settings.ACTION_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
 
 
     }
@@ -278,13 +363,33 @@ public class MainActivity extends AppCompatActivity
 
     private class GetGyms extends AsyncTask<String, Void, String> {
 
+        SimpleArcDialog mDialog;
+        int[] colors = {Color.parseColor("#ffef6968")};
+
         StringBuilder responseOutput;
+
+        @Override
+        protected void onPreExecute() {
+            mDialog = new SimpleArcDialog(MainActivity.this);
+            mDialog.setConfiguration(new ArcConfiguration(MainActivity.this));
+            mDialog.setCancelable(false);
+            ArcConfiguration configuration = new ArcConfiguration(MainActivity.this);
+            configuration.setLoaderStyle(SimpleArcLoader.STYLE.SIMPLE_ARC);
+            configuration.setText("Loading.Please wait..");
+            configuration.setColors(colors);
+            mDialog.setConfiguration(configuration);
+            mDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
             try {
 
-                URL url = new URL("http://54.244.41.83:9000/api/gyms"); //http://54.244.41.83:9000/api/gyms
+                //  URL url = new URL("http://54.244.41.83:9000/api/gyms");
+                //   URL url = new URL("http://192.168.8.100:9000/api/gyms");
+                //   URL url = new URL("http://54.244.41.83:9000/api/gyms/nearestGymsByType/"+params[0]);
+                URL url = new URL("http://192.168.8.100:9000/api/gyms/nearestGymsByType/" + params[0]);
+
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -349,12 +454,18 @@ public class MainActivity extends AppCompatActivity
                     gymObjArray.add(gymObj);
 
                 }
-               
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             addMapMarkers();
+
+            if (mDialog != null) {
+                if (mDialog.isShowing()) {
+                    mDialog.dismiss();
+                }
+            }
 
         }
     }

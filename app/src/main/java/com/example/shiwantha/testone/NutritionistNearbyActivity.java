@@ -1,11 +1,18 @@
 package com.example.shiwantha.testone;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -35,17 +42,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
 
-public class NutritionistNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class NutritionistNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
+
 
     // private String nutritionists;
     ArrayList<NutritionistObj> nutritionistObjArray = new ArrayList<NutritionistObj>();
 
+    LocationManager mLocationManager;
+    private Location loc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nutritionist_nearby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,9 +73,46 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
+            loc = location;
+        } else {
+            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                loc = location;
+            }
+
+        }
+
+
         new GetNutritionists().execute("hello");
 
+    }
 
+
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
+            loc = location;
+            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                mLocationManager.removeUpdates(this);
+            }
+        }
+    }
+
+    // Required functions
+    public void onProviderDisabled(String arg0) {
+    }
+
+    public void onProviderEnabled(String arg0) {
+    }
+
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -93,7 +143,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
         } else if (id == R.id.nav_settings) {
             //startActivity(new Intent(NutritionistNearbyActivity.this, RegisterActivity.class));
-            TokenManager.setToken(NutritionistNearbyActivity.this,"");
+            TokenManager.setToken(NutritionistNearbyActivity.this, "");
             startActivity(new Intent(NutritionistNearbyActivity.this, LoginActivity.class));
         }
 
@@ -101,29 +151,6 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    public void sendAdapterData(ArrayList<NutritionistObj> nutritionistObjArray) {
-
-        NutritionistCardAdaptor nutritionistCardAdaptor = new NutritionistCardAdaptor(this, nutritionistObjArray);
-
-        ListView nutritionistListView = (ListView) findViewById(R.id.nutritionistListView);
-
-        nutritionistListView.setAdapter(nutritionistCardAdaptor);
-
-//        nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//                // TODO Auto-generated method stub
-//                String Slecteditem= itemname[+position];
-//                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
-
-//
-//            }
-//        });
-    }
-
 
     private class GetNutritionists extends AsyncTask<String, Void, String> {
 
@@ -134,10 +161,9 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             try {
 
 
-               // URL url = new URL("http://192.168.8.103:9000/api/nutritionist");
+                URL url = new URL("http://192.168.8.100:9000/api/nutritionist");
 
-                URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
-
+                //URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -176,6 +202,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
                 JSONArray nutrtionistsJsonArray = new JSONArray(nutrtionistsStringArray);
 
+
                 for (int i = 0; i < nutrtionistsJsonArray.length(); i++) {
 
                     NutritionistObj nutritionistObj = new NutritionistObj();
@@ -189,38 +216,32 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                     nutritionistObj.setCity(nutrtionistJSONObj.getJSONObject("address").getString("city"));
                     nutritionistObj.setAvailability(nutrtionistJSONObj.getBoolean("availability"));
                     nutritionistObj.setRating(nutrtionistJSONObj.getDouble("rating"));
+                    nutritionistObj.setLatitude(nutrtionistJSONObj.getDouble("latitude"));
+                    nutritionistObj.setLongitude(nutrtionistJSONObj.getDouble("longitude"));
+
+
+                    Location userLocation = loc;
+                    Location nutritionistLocation = new Location("nutritionist");
+                    nutritionistLocation.setLatitude(nutritionistObj.getLatitude());
+                    nutritionistLocation.setLongitude(nutritionistObj.getLongitude());
+
+                    nutritionistObj.setDistance(userLocation.distanceTo(nutritionistLocation) / 1000);
 
                     nutritionistObjArray.add(nutritionistObj);
 
 
                 }
 
-//                sendAdapterData(nutritionistObjArray);
                 NutritionistCardAdaptor nutritionistCardAdaptor = new NutritionistCardAdaptor(NutritionistNearbyActivity.this, nutritionistObjArray);
 
                 ListView nutritionistListView = (ListView) findViewById(R.id.nutritionistListView);
 
                 nutritionistListView.setAdapter(nutritionistCardAdaptor);
 
-//                nutritionistListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                    @Override
-//                    public void onItemClick(AdapterView<?> parent, View view,
-//                                            int position, long id) {
-//                        // TODO Auto-generated method stub
-//                        // String Slecteditem= itemname[+position];
-//                        Toast.makeText(getApplicationContext(), "hollo " + position, Toast.LENGTH_SHORT).show();
-//
-//
-//                    }
-//                });
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            //  super.onPostExecute(nutrtionistsStringArray);
         }
 
 

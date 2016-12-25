@@ -51,10 +51,14 @@ public class TrainerCardAdaptor extends ArrayAdapter<TrainerObj> {
         TextView trainerName = (TextView) rowView.findViewById(R.id.trainerName);
         ImageView trainerPic = (ImageView) rowView.findViewById(R.id.trainerPic);
         RatingBar trainerRatingBar = (RatingBar) rowView.findViewById(R.id.trainerRatingBar);
-      ImageView trainerAvailability = (ImageView) rowView.findViewById(R.id.trainertAvailability);
+        ImageView trainerAvailability = (ImageView) rowView.findViewById(R.id.trainertAvailability);
         TextView location = (TextView) rowView.findViewById(R.id.location);
+        TextView trainerDistance = (TextView) rowView.findViewById(R.id.trainerDistance);
 
         trainerName.setText(trainerObjArray.get(position).getName());
+        String distance=String.format(String.valueOf(trainerObjArray.get(position).getDistance()));
+        trainerDistance.setText(distance);
+
         location.setText(trainerObjArray.get(position).getLocation());
         trainerRatingBar.setRating(trainerObjArray.get(position).getRating());
         if (trainerObjArray.get(position).getAvailability()==true){

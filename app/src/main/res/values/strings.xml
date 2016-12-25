@@ -32,5 +32,6 @@
 
     <string name="title_activity_nutritionist_profile">Nutritionist Profile</string>
     <string name="title_activity_messages">Messages</string>
+    <string name="title_activity_test">Test</string>
 
 </resources>
