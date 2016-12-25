@@ -40,14 +40,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class TrainersNearbyActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener ,LocationListener{
 
     ArrayList<TrainerObj> trainerObjArray = new ArrayList<TrainerObj>();
     Activity activity;
 
-    private double latitude;
-    private double longitude;
+    LocationManager mLocationManager;
     private Location loc;
 
     Button mJoinTrainersClub;
@@ -80,52 +80,41 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             }
         });
 
-        //add getTrainer method and execute
-        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        LocationListener ll = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.e("location", "" + location);
-                if (location != null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-                    loc = location;
+        Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-
-                }
+        if (location != null && location.getTime() > Calendar.getInstance().getTimeInMillis() - 2 * 60 * 1000) {
+            loc=location;
+        } else {
+            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                loc=location;
             }
 
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
         }
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, ll);
+
         new GetTrainers().execute("hello");
 
     }
+
+    public void onLocationChanged(Location location) {
+        if (location != null) {
+            Log.v("Location Changed", location.getLatitude() + " and " + location.getLongitude());
+            loc=location;
+            if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+                mLocationManager.removeUpdates(this);
+            }
+
+        }
+    }
+
+    // Required functions
+    public void onProviderDisabled(String arg0) {}
+    public void onProviderEnabled(String arg0) {}
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {}
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
