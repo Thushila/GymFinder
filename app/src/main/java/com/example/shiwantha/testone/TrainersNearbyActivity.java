@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,7 +32,11 @@ import android.widget.Toast;
 import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.TrainerObj;
 import com.example.shiwantha.testone.adaptor.TrainerCardAdaptor;
+import com.example.shiwantha.testone.util.CommonData;
 import com.example.shiwantha.testone.util.StatusCheck;
+import com.leo.simplearcloader.ArcConfiguration;
+import com.leo.simplearcloader.SimpleArcDialog;
+import com.leo.simplearcloader.SimpleArcLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -209,14 +214,31 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
 
 
     private class GetTrainers extends AsyncTask<String, Void, String> {
+
         StringBuilder responseOutput;
+        SimpleArcDialog mDialog;
+        int[] colors = {Color.parseColor("#ffef6968")};
+
+        @Override
+        protected void onPreExecute() {
+            mDialog = new SimpleArcDialog(TrainersNearbyActivity.this);
+            mDialog.setConfiguration(new ArcConfiguration(TrainersNearbyActivity.this));
+            mDialog.setCancelable(false);
+            ArcConfiguration configuration = new ArcConfiguration(TrainersNearbyActivity.this);
+            configuration.setLoaderStyle(SimpleArcLoader.STYLE.SIMPLE_ARC);
+            configuration.setText("Loading.Please wait..");
+            configuration.setColors(colors);
+            mDialog.setConfiguration(configuration);
+            mDialog.show();
+        }
+
 
         @Override
         protected String doInBackground(String... strings) {
 
             try {
 
-                URL url = new URL("http://192.168.8.100:9000/api/trainers");
+                URL url = new URL(CommonData.serverIp+"api/trainers");
 
                 // URL url = new URL("http://54.244.41.83:9000/api/trainers");
 
@@ -296,6 +318,12 @@ public class TrainersNearbyActivity extends AppCompatActivity implements Navigat
             }
             catch (NullPointerException e) {
                 e.printStackTrace();
+            }
+
+            if (mDialog != null) {
+                if (mDialog.isShowing()) {
+                    mDialog.dismiss();
+                }
             }
         }
     }

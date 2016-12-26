@@ -40,6 +40,7 @@ import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.example.shiwantha.testone.util.CommonData;
 import com.example.shiwantha.testone.util.StatusCheck;
 import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -385,7 +386,7 @@ public class MainActivity extends AppCompatActivity
                 //  URL url = new URL("http://54.244.41.83:9000/api/gyms");
                 //   URL url = new URL("http://192.168.8.100:9000/api/gyms");
                 //   URL url = new URL("http://54.244.41.83:9000/api/gyms/nearestGymsByType/"+params[0]);
-                URL url = new URL("http://192.168.8.100:9000/api/gyms/nearestGymsByType/" + params[0]);
+                URL url = new URL(CommonData.serverIp+"api/gyms/nearestGymsByType/" + params[0]);
 
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

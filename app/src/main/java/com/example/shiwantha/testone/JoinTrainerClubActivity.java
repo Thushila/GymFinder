@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.shiwantha.testone.Authentication.TokenManager;
+import com.example.shiwantha.testone.util.CommonData;
 
 import org.json.JSONObject;
 
@@ -38,7 +39,7 @@ public class JoinTrainerClubActivity extends AppCompatActivity implements Naviga
     CheckBox checkGroup;
     CheckBox checkYoga;
     Button createAccount;
-    private final String url = "http://54.244.41.83:9000/api/trainers";
+    private final String url = CommonData.serverIp+"api/trainers";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

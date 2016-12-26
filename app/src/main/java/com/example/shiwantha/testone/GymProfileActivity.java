@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.GymObj;
+import com.example.shiwantha.testone.util.CommonData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,7 +140,7 @@ public class GymProfileActivity extends AppCompatActivity implements NavigationV
 
 
                // URL url = new URL("http://54.244.41.83:9000/api/gyms/" + params[0]);
-                URL url = new URL("http://192.168.8.100:9000/api/gyms/" + params[0]);
+                URL url = new URL(CommonData.serverIp+"api/gyms/" + params[0]);
 
 
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

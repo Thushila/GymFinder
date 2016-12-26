@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,7 +33,11 @@ import android.widget.Toast;
 import com.example.shiwantha.testone.Authentication.TokenManager;
 import com.example.shiwantha.testone.Entity.NutritionistObj;
 import com.example.shiwantha.testone.adaptor.NutritionistCardAdaptor;
+import com.example.shiwantha.testone.util.CommonData;
 import com.example.shiwantha.testone.util.StatusCheck;
+import com.leo.simplearcloader.ArcConfiguration;
+import com.leo.simplearcloader.SimpleArcDialog;
+import com.leo.simplearcloader.SimpleArcLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -132,7 +137,7 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
             } else {
                 if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 
-                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                    mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1,0.0f, this);
                     location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     loc = location;
                 }
@@ -206,14 +211,30 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
 
     private class GetNutritionists extends AsyncTask<String, Void, String> {
 
+        SimpleArcDialog mDialog;
+        int[] colors = {Color.parseColor("#ffef6968")};
+
         StringBuilder responseOutput;
+
+        @Override
+        protected void onPreExecute() {
+            mDialog = new SimpleArcDialog(NutritionistNearbyActivity.this);
+            mDialog.setConfiguration(new ArcConfiguration(NutritionistNearbyActivity.this));
+            mDialog.setCancelable(false);
+            ArcConfiguration configuration = new ArcConfiguration(NutritionistNearbyActivity.this);
+            configuration.setLoaderStyle(SimpleArcLoader.STYLE.SIMPLE_ARC);
+            configuration.setText("Loading.Please wait..");
+            configuration.setColors(colors);
+            mDialog.setConfiguration(configuration);
+            mDialog.show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
             try {
 
 
-                URL url = new URL("http://192.168.8.100:9000/api/nutritionist");
+                URL url = new URL(CommonData.serverIp+"api/nutritionist");
 
                 //URL url = new URL("http://54.244.41.83:9000/api/nutritionist");
 
@@ -297,6 +318,11 @@ public class NutritionistNearbyActivity extends AppCompatActivity implements Nav
                 e.printStackTrace();
             }
 
+            if (mDialog != null) {
+                if (mDialog.isShowing()) {
+                    mDialog.dismiss();
+                }
+            }
         }
 
 

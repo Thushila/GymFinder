@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.shiwantha.testone.Authentication.TokenManager;
+import com.example.shiwantha.testone.util.CommonData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements NavigationVie
     private EditText mobile;
     private EditText password;
     private EditText repeatPassword;
-    private final String url = "http://54.244.41.83:9000/api/users";
+    private final String url = CommonData.serverIp+"api/users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

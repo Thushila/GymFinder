@@ -27,7 +27,7 @@ public class NutritionistCardAdaptor extends ArrayAdapter<NutritionistObj>{ //Nu
 
     public NutritionistCardAdaptor(Activity context,  ArrayList<NutritionistObj> nutritionistObjArray) {
          super(context, R.layout.nutritionist_detail_card, nutritionistObjArray);
-        Log.e("Test1","OnPost Data vvvvvvvvv:: "+nutritionistObjArray.get(0).getName());
+
         // TODO Auto-generated constructor stub
 
         this.context=context;

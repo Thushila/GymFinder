@@ -59,17 +59,8 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
-            <CheckBox
-                android:button="@android:drawable/btn_star"
-                android:padding="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/favorite"
 
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"/>
         </LinearLayout>
-
 
         <ScrollView
             android:layout_width="match_parent"
@@ -89,6 +80,16 @@
                     android:layout_weight="1"
                     android:orientation="vertical"
                     android:weightSum="1">
+
+                    <CheckBox
+                        android:button="@android:drawable/btn_star"
+                        android:padding="@dimen/activity_horizontal_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/favorite"
+
+                        android:background="@android:color/transparent"
+                        android:layout_gravity="center"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -202,31 +203,31 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            android:layout_weight="0.8"
                             android:text="Hours:"
-                            android:textSize="@dimen/gym_profile_font_size"
-                            android:layout_weight="0.8" />
+                            android:textSize="@dimen/gym_profile_font_size" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_gravity="left"
-                            android:gravity="left">
+                            android:gravity="left"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/weekdayHours"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
                                 android:layout_gravity="left"
+                                android:layout_marginTop="5dp"
                                 android:layout_weight="1"
                                 android:textSize="@dimen/gym_profile_font_size" />
 
                             <!--android:text="M-F:8am-8pm"-->
                             <TextView
+                                android:id="@+id/saturdayHours"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/saturdayHours"
                                 android:layout_marginTop="5dp"
                                 android:layout_weight="1"
 
@@ -234,13 +235,13 @@
 
 
                             <TextView
+                                android:id="@+id/sundayHours"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/sundayHours"
+                                android:layout_gravity="left"
                                 android:layout_marginTop="5dp"
-                                android:textSize="@dimen/gym_profile_font_size"
                                 android:layout_weight="1"
-                                android:layout_gravity="left"/>
+                                android:textSize="@dimen/gym_profile_font_size" />
 
 
                         </LinearLayout>
@@ -272,7 +273,6 @@
                             android:layout_weight="1"
                             android:textSize="@dimen/gym_profile_font_size" />
                     </LinearLayout>
-
 
 
                     <LinearLayout
